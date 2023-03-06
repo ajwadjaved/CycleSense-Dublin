@@ -1,6 +1,7 @@
 import credentials
 import dbinfo
 from sqlalchemy import create_engine, text
+import datetime
 
 
 class DBConnector:
@@ -75,8 +76,9 @@ class DBConnector:
         with cur_engine.begin() as connection:
             for station in stations:
                 insert_static = text("""
-                INSERT INTO station(NUMBER, address, banking, NAME, position_lat, position_long)
-                VALUES ({},'{}',{},'{}',{},{})"""
+                    INSERT INTO station(NUMBER, address, banking, NAME, position_lat, position_long)
+                    VALUES ({},'{}',{},'{}',{},{});
+                                    """
                                      .format(station["number"], self.process_str(station["address"]),
                                              station["banking"],
                                              self.process_str(station["name"]), station["position"]["lat"],
@@ -84,6 +86,26 @@ class DBConnector:
                                      )
                 connection.execute(insert_static)
 
+    def insert_dynamic_data(self, stations, test=False):
+        cur_engine = self.test_engine if test else self.engine
+        with cur_engine.begin() as connection:
+            for station in stations:
+                # convert timestamp (int type in dictionary) from millisecond to second precision
+                timestamp = datetime.datetime.fromtimestamp(station['last_update'] / 1000)
+                is_open = True if station['status'] == 'OPEN' else False
+                insert_dynamic = text("""
+                    INSERT INTO availability(NUMBER, last_update, open, 
+                        bike_stands, available_bikes, available_bike_stands);
+                    VALUES ({},'{}',{},{},{},{});
+                                      """
+                                      .format(station['number'], timestamp, is_open,
+                                              station['bike_stands'], station['available_bike'],
+                                              station['available_bike_stands']
+                                              )
+                                      )
+                connection.execute(insert_dynamic)
+
     @staticmethod
     def process_str(string):
+        # 2 single quotes: first single quote escapes the second in a sql insert query
         return string.replace("'", "''")
