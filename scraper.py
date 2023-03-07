@@ -6,6 +6,8 @@ import dbinfo
 import credentials
 from DBConnector import DBConnector
 
+db_connector = DBConnector()
+
 
 def query_api():
     dublin_stations = requests.get(dbinfo.STATIONS_LIST_URI,
@@ -19,19 +21,18 @@ def query_api():
     #     json.dump(stations_dict, outfile, indent=4)
 
 
-# todo: switch from test database to prod database
-test = False
-db_connector = DBConnector()
-station_dicts = query_api()
+def insert_static():
+    station_dicts = query_api()
+    db_connector.insert_static_data(station_dicts)
 
-# populate the static table
-db_connector.insert_static_data(station_dicts, test)
+
+# insert_static()
 
 # populate the dynamic table
 while True:
     try:
         station_dicts = query_api()
-        db_connector.insert_dynamic_data(station_dicts, test)
+        db_connector.insert_dynamic_data(station_dicts)
         # rest 5 minutes
         time.sleep(5 * 60)
     except Exception as e:

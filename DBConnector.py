@@ -12,22 +12,16 @@ class DBConnector:
         credentials.DB_USER, credentials.DB_PW, dbinfo.DB_URI, dbinfo.DB_PORT,
         dbinfo.DB_NAME),
         echo=True)  # log all statements
-    # connected to test database
-    test_engine = create_engine("mysql+pymysql://{}:{}@{}:{}/{}".format(
-        credentials.DB_USER, credentials.DB_PW, dbinfo.DB_URI, dbinfo.DB_PORT,
-        dbinfo.TEST_DB_NAME),
-        echo=True)  # log all statements
 
-    def create_database(self, test=False):
+    def create_database(self):
         # text() converts string to compatible sql command
-        create_database = text("CREATE DATABASE IF NOT EXISTS dublinbikes")
+        create_database = text("CREATE DATABASE IF NOT EXISTS dublin_bikes_db")
         # engine.begin() starts a transaction and auto-commits each sql command
         # "with" block would close the connection at the end automatically
-        cur_engine = self.test_engine if test else self.engine
-        with cur_engine.begin() as connection:
+        with self.engine.begin() as connection:
             connection.execute(create_database)
 
-    def create_static_station_table(self, test=False):
+    def create_static_station_table(self):
         create_static_station_table = text("""
                 CREATE TABLE IF NOT EXISTS station (
                     NUMBER INTEGER NOT NULL,
@@ -39,11 +33,10 @@ class DBConnector:
                     PRIMARY KEY (NUMBER)
                 );
             """)
-        cur_engine = self.test_engine if test else self.engine
-        with cur_engine.begin() as connection:
+        with self.engine.begin() as connection:
             connection.execute(create_static_station_table)
 
-    def create_dynamic_availability_table(self, test=False):
+    def create_dynamic_availability_table(self):
         create_dynamic_availability_table = text("""
                     CREATE TABLE IF NOT EXISTS availability (
                         NUMBER INTEGER NOT NULL,
@@ -56,24 +49,21 @@ class DBConnector:
                         FOREIGN KEY (NUMBER) REFERENCES station(NUMBER)
                     );
                 """)
-        cur_engine = self.test_engine if test else self.engine
-        with cur_engine.begin() as connection:
+        with self.engine.begin() as connection:
             connection.execute(create_dynamic_availability_table)
 
-    def test_connection(self, test=False):
+    def test_connection(self):
         check_column_types = text("""
                 SELECT COLUMN_NAME, DATA_TYPE
                 FROM information_schema.COLUMNS
                 WHERE TABLE_NAME = 'station' OR TABLE_NAME = 'availability'
             """)
-        cur_engine = self.test_engine if test else self.engine
-        with cur_engine.begin() as connection:
+        with self.engine.begin() as connection:
             for column in connection.execute(check_column_types):
                 print(column)
 
-    def insert_static_data(self, stations, test=False):
-        cur_engine = self.test_engine if test else self.engine
-        with cur_engine.begin() as connection:
+    def insert_static_data(self, stations):
+        with self.engine.begin() as connection:
             for station in stations:
                 insert_static = text("""
                     INSERT INTO station(NUMBER, address, banking, NAME, position_lat, position_long)
@@ -86,20 +76,19 @@ class DBConnector:
                                      )
                 connection.execute(insert_static)
 
-    def insert_dynamic_data(self, stations, test=False):
-        cur_engine = self.test_engine if test else self.engine
-        with cur_engine.begin() as connection:
+    def insert_dynamic_data(self, stations):
+        with self.engine.begin() as connection:
             for station in stations:
                 # convert timestamp (int type in dictionary) from millisecond to second precision
                 timestamp = datetime.datetime.fromtimestamp(station['last_update'] / 1000)
                 is_open = True if station['status'] == 'OPEN' else False
                 insert_dynamic = text("""
                     INSERT INTO availability(NUMBER, last_update, open, 
-                        bike_stands, available_bikes, available_bike_stands);
+                        bike_stands, available_bikes, available_bike_stands)
                     VALUES ({},'{}',{},{},{},{});
                                       """
                                       .format(station['number'], timestamp, is_open,
-                                              station['bike_stands'], station['available_bike'],
+                                              station['bike_stands'], station['available_bikes'],
                                               station['available_bike_stands']
                                               )
                                       )

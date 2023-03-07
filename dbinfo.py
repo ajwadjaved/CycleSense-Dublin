@@ -4,7 +4,6 @@ STATIONS_LIST_URI = "https://api.jcdecaux.com/vls/v1/stations"  # stations in sp
 CONTRACT_NAME = "dublin"
 
 # database connection info
-DB_URI = "dbbikes.cxr944qojhtl.us-east-1.rds.amazonaws.com"
+DB_URI = "dbbikes-db-instance.com7eohnek2o.us-east-1.rds.amazonaws.com"
 DB_PORT = "3306"
-DB_NAME = "dublinbikes"
-TEST_DB_NAME = "test"
+DB_NAME = "dublin_bikes_db"
