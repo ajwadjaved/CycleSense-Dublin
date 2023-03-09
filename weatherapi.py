@@ -1,1 +1,1 @@
-API = "" #put your openweather key here
+API = "aa5539c2b8daa64d6ff5aec52933f615" #put your openweather key here
