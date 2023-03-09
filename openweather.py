@@ -1,6 +1,12 @@
 import weatherapi
 import requests
+from datetime import date
+
 URL = "https://api.openweathermap.org/data/2.5/weather"
+
+today = date.today()
+today = today.strftime("%d/%m/%Y")
+print(today)
 
 params = {
     "q": "Dublin,IE",
@@ -15,6 +21,10 @@ response = requests.get(URL, params=params)
 if response.status_code == 200:
     # Extract the weather data from the JSON response
     data = response.json()
-    print(data)
+    description = data['weather'][0]['description']
+    temp = data['main']['temp']
 else:
     print("Error:", response.status_code)
+
+print(description)
+print(temp)
