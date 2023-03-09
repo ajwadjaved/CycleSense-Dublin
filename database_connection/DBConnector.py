@@ -83,7 +83,7 @@ class DBConnector:
                 timestamp = datetime.datetime.fromtimestamp(station['last_update'] / 1000)
                 is_open = True if station['status'] == 'OPEN' else False
                 insert_dynamic = text("""
-                    INSERT INTO availability(NUMBER, last_update, open, 
+                    INSERT IGNORE INTO availability(NUMBER, last_update, open, 
                         bike_stands, available_bikes, available_bike_stands)
                     VALUES ({},'{}',{},{},{},{});
                                       """
