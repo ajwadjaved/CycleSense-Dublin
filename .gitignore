@@ -1,3 +1,5 @@
 /.ssh
 credentials.py
 *.pem
+dbinfo.py
+weatherapi.py
