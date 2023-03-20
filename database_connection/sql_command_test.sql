@@ -16,7 +16,7 @@ FROM station;
 INSERT IGNORE INTO availability(NUMBER, last_update, open, bike_stands, available_bikes, available_bike_stands)
 VALUES (42, '2023-03-04 01:40:52', FALSE, 30, 12, 18);
 
-SELECT *
+SELECT COUNT(*)
 FROM availability;
 
 

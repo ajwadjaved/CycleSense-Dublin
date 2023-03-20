@@ -11,7 +11,7 @@ class DBConnector:
     engine = create_engine("mysql+pymysql://{}:{}@{}:{}/{}".format(
         credentials.DB_USER, credentials.DB_PW, dbinfo.DB_URI, dbinfo.DB_PORT,
         dbinfo.DB_NAME),
-        echo=True)  # log all statements
+        echo=True)
 
     def create_database(self):
         # text() converts string to compatible sql command

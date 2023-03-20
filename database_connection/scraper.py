@@ -1,4 +1,3 @@
-import time
 import requests
 import json
 
@@ -28,12 +27,9 @@ def insert_static():
 
 # insert_static()
 
-# populate the dynamic table
-while True:
-    try:
-        station_dicts = query_api()
-        db_connector.insert_dynamic_data(station_dicts)
-        # rest 5 minutes
-        time.sleep(5 * 60)
-    except Exception as e:
-        print(e)
+# populate the dynamic table - schedule with cron
+try:
+    station_dicts = query_api()
+    db_connector.insert_dynamic_data(station_dicts)
+except Exception as e:
+    print(e)
