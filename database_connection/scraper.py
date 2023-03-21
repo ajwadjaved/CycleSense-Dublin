@@ -25,8 +25,7 @@ def insert_static():
     db_connector.insert_static_data(station_dicts)
 
 
-# insert_static()
-
+insert_static()
 # populate the dynamic table - schedule with cron
 try:
     station_dicts = query_api()
