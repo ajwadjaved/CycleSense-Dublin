@@ -1,5 +1,6 @@
 /.ssh
-credentials.py
-*.pem
+**/credentials.py
+**/*.pem
 dbinfo.py
 weatherapi.py
+**/[Tt]est*
