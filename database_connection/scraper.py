@@ -1,5 +1,6 @@
 import requests
 import json
+from datetime import datetime
 
 import dbinfo
 import credentials
@@ -25,10 +26,14 @@ def insert_static():
     db_connector.insert_static_data(station_dicts)
 
 
-insert_static()
-# populate the dynamic table - schedule with cron
+# insert_static()
+# populate the dynamic table - schedule with cron; log into cron.log
+log = open("cron.log", "a")
+timestamp = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 try:
     station_dicts = query_api()
     db_connector.insert_dynamic_data(station_dicts)
+    log.write(timestamp + ": insert successful")
 except Exception as e:
-    print(e)
+    log.write(timestamp + str(e))
+log.close()
