@@ -3,4 +3,4 @@
 **/*.pem
 dbinfo.py
 weatherapi.py
-**/[Tt]est*
+**/*[Tt]est*
