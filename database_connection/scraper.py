@@ -3,6 +3,10 @@ import requests
 import json
 from datetime import datetime
 
+# to enable importing (dbinfo & credentials) from the parent folder (dublinbikesproject)
+import sys
+sys.path.append('..')
+
 import dbinfo
 import credentials
 from DBConnector import DBConnector
