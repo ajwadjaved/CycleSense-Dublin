@@ -1,13 +1,10 @@
 import requests
 from datetime import datetime
+
 from DBConnector import DBConnector
+import credentials
 
 db_connector = DBConnector()
-
-# to enable importing (dbinfo & credentials) from the parent folder
-import sys
-sys.path.append('..')
-import credentials
 
 
 def query_weatherAPI():
