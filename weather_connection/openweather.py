@@ -38,7 +38,7 @@ def query_weatherAPI():
     output.append(curr_time)
     output.append(description)
     output.append(temp)
-    print(output)
+    # print(output)
     return output
 
     # print(today)
@@ -48,6 +48,5 @@ def query_weatherAPI():
 # print(query_weatherAPI())
 # db_connector.create_database()
 # db_connector.create_static_station_table()
-# db_connector.insert_static_data(query_weatherAPI())
+db_connector.insert_static_data(query_weatherAPI())
 
-query_weatherAPI()
