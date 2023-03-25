@@ -5,3 +5,4 @@ dbinfo.py
 weatherapi.py
 **/*[Tt]est*
 .idea/
+**/.DS_Store
