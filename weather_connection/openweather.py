@@ -1,10 +1,8 @@
-import weatherapi
 import requests
 from datetime import datetime
-import os
-import requests
-from datetime import datetime
+
 from DBConnector import DBConnector
+import credentials
 
 db_connector = DBConnector()
 
@@ -18,7 +16,7 @@ def query_weatherAPI():
 
     params = {
         "q": "Dublin,IE",
-        "appid": weatherapi.API,
+        "appid": credentials.WEATHER_API_KEY,
         "units": "metric"
     }
 
@@ -44,6 +42,7 @@ def query_weatherAPI():
     # print(today)
     # print(description)
     # print(temp)
+
 
 # print(query_weatherAPI())
 # db_connector.create_database()
