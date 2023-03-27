@@ -1,3 +1,6 @@
+# to enable importing (dbinfo & credentials) from the parent folder (dublinbikesproject)
+import sys
+sys.path.append('..')
 import credentials
 import dbinfo
 from sqlalchemy import create_engine, text

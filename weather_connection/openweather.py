@@ -1,10 +1,8 @@
-import weatherapi
 import requests
 from datetime import datetime
-import os
-import requests
-from datetime import datetime
+
 from DBConnector import DBConnector
+import credentials
 
 db_connector = DBConnector()
 
@@ -14,11 +12,11 @@ def query_weatherAPI():
 
     URL = "https://api.openweathermap.org/data/2.5/weather"
     today = datetime.today().strftime("%Y/%m/%d")
-    curr_time = datetime.now().strftime("%H/%M/%S")
+    curr_time = datetime.now().strftime("%H-%M-%S")
 
     params = {
         "q": "Dublin,IE",
-        "appid": weatherapi.API,
+        "appid": credentials.WEATHER_API_KEY,
         "units": "metric"
     }
 
@@ -38,14 +36,16 @@ def query_weatherAPI():
     output.append(curr_time)
     output.append(description)
     output.append(temp)
-
+    # print(output)
     return output
 
     # print(today)
     # print(description)
     # print(temp)
 
+
 # print(query_weatherAPI())
 # db_connector.create_database()
 # db_connector.create_static_station_table()
 db_connector.insert_static_data(query_weatherAPI())
+
