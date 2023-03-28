@@ -11,9 +11,50 @@
 <body>
   <div class="wrapper">
       <h5>Group 19: Ajwad | Ian | Judith</h5>
-      <h2>Map of Dublin showing all bike stations</h2>
-
+      <hr>
+      <!-- Form which reads user input. Output changed depending on choice -->
+      <div id="user_input">
+          <h3>I am...</h3>
+          <div id="IAmForm">
+              <form>
+                  <input type="radio" id="need_bike" name="bikeOptions" value="needBike" onclick="check(this.value)">
+                  <label for="need_bike">Looking for a bike</label>
+                  <input type="radio" id="return_bike" name="bikeOptions" value="returnBike" onclick="check(this.value)">
+                  <label for="return_bike">Returning a bike</label>
+                  <input type="radio" id="plan_trip" name="bikeOptions" value="planTrip" onclick="check(this.value)">
+                  <label for="plan_trip">Planning a trip</label>
+              </form>
+          </div>
+          <br>
+          <div id="userTripForm"></div>
+      </div>
+      <br>
+      <!-- If user is planning trip: prompt for more info-->
+      <div id="userChoice"></div>
+      <div id="tripPlanner" class="hide">
+          <form>
+              <label for="dayOfTrip"><strong>Day of Trip: </strong></label>
+              <input type="date" id="dayOfTrip" name="tripDay">
+          </form>
+      </div>
+      <br>
+      <div id="floating_panel" class="hide">
+          <b>Start: </b>
+          <select id="start">
+              <option value="smithfieldN">Smithfield North</option>
+              <option value="wiltonTerr">Wilton Terrace</option>
+          </select>
+          <b>End: </b>
+          <select id="end">
+              <option value="avondaleRd">Avondale Road</option>
+              <option value="goldenLane">Golden Lane</option>
+          </select>
+      </div>
+      <h2 id="mapHeader">All available stations:</h2>
       <div id="map"></div>
+      <div id="warningsPanel"></div>
+      <div id="station_info"></div>
+      <div id="weather_info"></div>
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg2sU2u51CSm_oPPVdNrDTIyHW9GU29MY&callback=initMap" async defer>
       </script>
 
