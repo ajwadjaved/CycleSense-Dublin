@@ -7,6 +7,25 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <!-- link to js file loading map -->
     <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>
+    <script>
+        function check(bikeOptions) {
+            if (bikeOptions == 'needBike') {
+                document.getElementById('userChoice').innerHTML='Looking for a bike near you...';
+                document.getElementById('tripPlanner').style.display = 'none';
+                document.getElementById('floating_panel').style.display = 'none';
+                document.getElementById('mapHeader').innerHTML='Your closest Bike:';}
+            else if (bikeOptions == 'returnBike') {
+                document.getElementById('userChoice').innerHTML='Finding a station for you...';
+                document.getElementById('tripPlanner').style.display = 'none';
+                document.getElementById('floating_panel').style.display = 'none';
+                document.getElementById('mapHeader').innerHTML='Your closest Station:';}
+            else if (bikeOptions == 'planTrip') {
+                document.getElementById('userChoice').innerHTML='Provide information about your trip:';
+                document.getElementById('tripPlanner').style.display = 'block';
+                document.getElementById('floating_panel').style.display = 'block';
+                document.getElementById('mapHeader').innerHTML='Stations for your trip:';}
+        }
+    </script>
 </head>
 <body>
   <div class="wrapper">
