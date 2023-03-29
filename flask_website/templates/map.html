@@ -2,52 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dublin Map</title>
     <!-- link to stylesheet in static/css folder -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <!-- link to js file loading map -->
-    <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>
-    <script>
-        function check(bikeOptions) {
-            if (bikeOptions == 'needBike') {
-                document.getElementById('userChoice').innerHTML='Looking for a bike near you...';
-                document.getElementById('tripPlanner').style.display = 'none';
-                document.getElementById('floating_panel').style.display = 'none';
-                document.getElementById('mapHeader').innerHTML='Your closest Bike:';}
-            else if (bikeOptions == 'returnBike') {
-                document.getElementById('userChoice').innerHTML='Finding a station for you...';
-                document.getElementById('tripPlanner').style.display = 'none';
-                document.getElementById('floating_panel').style.display = 'none';
-                document.getElementById('mapHeader').innerHTML='Your closest Station:';}
-            else if (bikeOptions == 'planTrip') {
-                document.getElementById('userChoice').innerHTML='Provide information about your trip:';
-                document.getElementById('tripPlanner').style.display = 'block';
-                document.getElementById('floating_panel').style.display = 'block';
-                document.getElementById('mapHeader').innerHTML='Stations for your trip:';}
-        }
-    </script>
 </head>
 <body>
   <div class="wrapper">
       <h5>Group 19: Ajwad | Ian | Judith</h5>
       <hr>
+
       <!-- Form which reads user input. Output changed depending on choice -->
       <div id="user_input">
-          <h3>I am...</h3>
+          <h2>I am...</h2>
           <div id="IAmForm">
-              <form>
-                  <input type="radio" id="need_bike" name="bikeOptions" value="needBike" onclick="check(this.value)">
-                  <label for="need_bike">Looking for a bike</label>
-                  <input type="radio" id="return_bike" name="bikeOptions" value="returnBike" onclick="check(this.value)">
-                  <label for="return_bike">Returning a bike</label>
-                  <input type="radio" id="plan_trip" name="bikeOptions" value="planTrip" onclick="check(this.value)">
-                  <label for="plan_trip">Planning a trip</label>
-              </form>
+              <button id="need_bike" class="button"><span>Looking for a Bike</span></button>
+              <button id="return_bike" class="button"><span>Returning a Bike</span></button>
+              <button id="plan_trip" class="button"><span>Planning a Trip</span></button>
           </div>
           <br>
           <div id="userTripForm"></div>
       </div>
       <br>
+
       <!-- If user is planning trip: prompt for more info-->
       <div id="userChoice"></div>
       <div id="tripPlanner" class="hide">
@@ -57,6 +34,8 @@
           </form>
       </div>
       <br>
+
+      <!--hidden panel for user input on start and end location for planned trip-->
       <div id="floating_panel" class="hide">
           <b>Start: </b>
           <select id="start">
@@ -69,14 +48,19 @@
               <option value="goldenLane">Golden Lane</option>
           </select>
       </div>
-      <h2 id="mapHeader">All available stations:</h2>
+
+      <!--Map header changes depending on what the user is looking for-->
+      <h3 id="mapHeader">All available stations:</h3>
       <div id="map"></div>
       <div id="warningsPanel"></div>
       <div id="station_info"></div>
       <div id="weather_info"></div>
+
+      <!--load map from googlemaps API using defer to load last-->
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg2sU2u51CSm_oPPVdNrDTIyHW9GU29MY&callback=initMap" async defer>
       </script>
-
+      <!--link to js file for functions-->
+      <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>
   </div>
 
 </body>
