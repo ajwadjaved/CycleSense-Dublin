@@ -9,48 +9,38 @@
 </head>
 <body>
   <div class="wrapper">
-      <h5>Group 19: Ajwad | Ian | Judith</h5>
-      <hr>
+      <div id="header">
+            <h4>Group 19: Ajwad | Ian | Judith</h4>
+            <hr>
 
-      <!-- Form which reads user input. Output changed depending on choice -->
-      <div id="user_input">
-          <h2>I am...</h2>
-          <div id="IAmForm">
-              <button id="need_bike" class="button"><span>Looking for a Bike</span></button>
-              <button id="return_bike" class="button"><span>Returning a Bike</span></button>
-              <button id="plan_trip" class="button"><span>Planning a Trip</span></button>
-          </div>
-          <br>
-          <div id="userTripForm"></div>
-      </div>
-      <br>
+            <!-- Form which reads user input. Output changed depending on choice -->
+             <div id="user_input">
+                 <h2>I am...</h2>
+                 <div id="IAmForm">
+                     <button id="need_bike" class="button"><span>Looking for a Bike</span></button>
+                     <button id="return_bike" class="button"><span>Returning a Bike</span></button>
+                     <button id="plan_trip" class="button"><span>Planning a Trip</span></button>
+                 </div>
+             <div id="userTripForm"></div>
 
-      <!-- If user is planning trip: prompt for more info-->
-      <div id="userChoice"></div>
-      <div id="tripPlanner" class="hide">
-          <form>
-              <label for="dayOfTrip"><strong>Day of Trip: </strong></label>
-              <input type="date" id="dayOfTrip" name="tripDay">
-          </form>
-      </div>
-      <br>
+            </div>
 
-      <!--hidden panel for user input on start and end location for planned trip-->
-      <div id="floating_panel" class="hide">
-          <b>Start: </b>
-          <select id="start">
-              <option value="smithfieldN">Smithfield North</option>
-              <option value="wiltonTerr">Wilton Terrace</option>
-          </select>
-          <b>End: </b>
-          <select id="end">
-              <option value="avondaleRd">Avondale Road</option>
-              <option value="goldenLane">Golden Lane</option>
-          </select>
+
+            <!-- If user is planning trip: prompt for more info-->
+            <div id="userChoice"></div>
+            <div id="tripPlanner" class="hide">
+                <br>
+                 <form>
+                   <label for="dayOfTrip"><strong>Day of Trip: </strong></label>
+                    <input type="date" id="dayOfTrip" name="tripDay">
+                 </form>
+           </div>
+           <br>
+            <!--Map header changes depending on what the user is looking for-->
+            <h2 id="mapHeader">All available stations:</h2>
       </div>
 
-      <!--Map header changes depending on what the user is looking for-->
-      <h3 id="mapHeader">All available stations:</h3>
+      <!--Map container-->
       <div id="map"></div>
       <div id="warningsPanel"></div>
       <div id="station_info"></div>

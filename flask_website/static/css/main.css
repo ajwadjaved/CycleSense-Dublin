@@ -27,15 +27,19 @@ a {
 a:hover {
     color: red;
 }
+#header {
+    max-width: 90%;
+    margin:auto;
+}
 #map {
-    height: 30em;
+    height: 40em;
     max-width: 90%;
     margin: auto;
 }
 .button {
     display: inline-block;
     border-radius: 4px;
-    background-color: #89DDC2;
+    background-color: #356A59;
     border: none;
     color: white;
     font-size: 18px;
@@ -43,11 +47,11 @@ a:hover {
     width: 200px;
     text-align: center;
     transition: all 0.5s;
-    cursor: pointer;
+    cursor: e-resize;
     margin: 2px;
 }
 .button span {
-    cursor: pointer;
+    cursor: e-resize;
     display: inline-block;
     position: relative;
     transition: 0.5s;
@@ -61,7 +65,7 @@ a:hover {
     transition: 0.5s;
 }
 .button:hover{
-    background-color: #A3E799;
+    background-color: #89D17E;
 }
 .button:hover span{
     padding-right: 15px;

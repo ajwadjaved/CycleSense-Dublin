@@ -86,21 +86,18 @@ document.getElementById("return_bike").onclick = function() {returnBike()};
 document.getElementById("plan_trip").onclick = function() {planTrip()};
 
 function needBike(){
-    document.getElementById('userChoice').innerHTML='Looking for a bike near you...';
+//    document.getElementById('userChoice').innerHTML='Looking for a bike near you...';
     document.getElementById('tripPlanner').style.display = 'none';
-    document.getElementById('floating_panel').style.display = 'none';
     document.getElementById('mapHeader').innerHTML='Your closest Bike:';
 }
 function returnBike(){
-    document.getElementById('userChoice').innerHTML='Finding a station for you...';
+//    document.getElementById('userChoice').innerHTML='Finding a station for you...';
     document.getElementById('tripPlanner').style.display = 'none';
-    document.getElementById('floating_panel').style.display = 'none';
     document.getElementById('mapHeader').innerHTML='Your closest Station:';
 }
 function planTrip(){
-    document.getElementById('userChoice').innerHTML='Provide information about your trip:';
+//    document.getElementById('userChoice').innerHTML='Provide information about your trip:';
     document.getElementById('tripPlanner').style.display = 'block';
-    document.getElementById('floating_panel').style.display = 'block';
     document.getElementById('mapHeader').innerHTML='Stations for your trip:';
 }
 //initialise map function when script is called === working fine ===
