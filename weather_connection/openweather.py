@@ -12,7 +12,7 @@ def query_weatherAPI():
 
     URL = "https://api.openweathermap.org/data/2.5/weather"
     today = datetime.today().strftime("%Y/%m/%d")
-    curr_time = datetime.now().strftime("%H-%M-%S")
+    curr_time = datetime.now().strftime("%H:%M:%S")
 
     params = {
         "q": "Dublin,IE",
@@ -34,6 +34,7 @@ def query_weatherAPI():
 
     output.append(today)
     output.append(curr_time)
+    print(curr_time)
     output.append(description)
     output.append(temp)
     # print(output)
