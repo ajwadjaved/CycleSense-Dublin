@@ -8,9 +8,9 @@ def home():
     return render_template('map.html')
 
 
-@app.route('/stations')
-def get_stations():
-    pass
+# @app.route('/stations')
+# def get_stations():
+#     pass
 
 
 if __name__ == '__main__':
