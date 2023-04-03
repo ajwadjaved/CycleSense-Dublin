@@ -7,3 +7,5 @@ weatherapi.py
 .idea/
 **/.DS_Store
 map.html
+**/__pycache__/
+**/*.log

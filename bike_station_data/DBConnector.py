@@ -98,3 +98,29 @@ class DBConnector:
     def process_str(string):
         # 2 single quotes: first single quote escapes the second in a sql insert query
         return string.replace("'", "''")
+
+    def return_hourly_station_data(self, station: int, duration_hours: int):
+        with self.engine.begin() as connection:
+            query = text("""
+                    SELECT last_update, available_bikes, available_bike_stands
+                    FROM availability
+                    WHERE number = {}
+                        AND last_update >= NOW() - INTERVAL {} HOUR;
+                """.
+                         format(station, duration_hours)
+                         )
+            rows = connection.execute(query).all()
+        # key: update time; value: [avail_bikes, avail_stands]
+        time_availability = dict()
+        for row in rows:
+            time_availability[row[0]] = {"available bikes": row[1],
+                                         "available bike stands": row[2]}
+        return time_availability
+
+
+def tests():
+    connector = DBConnector()
+    print(connector.return_hourly_station_data(17, 24))
+
+
+# tests()
