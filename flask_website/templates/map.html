@@ -26,7 +26,6 @@
 
             </div>
 
-
             <!-- If user is planning trip: prompt for more info-->
             <div id="userChoice"></div>
             <div id="tripPlanner" class="hide">
@@ -39,9 +38,7 @@
            <br>
             <!--Map header changes depending on what the user is looking for-->
             <h2 id="mapHeader">All available stations:</h2>
-          <div id="station_info">
-              <p id="stations_list">List of Stations:</p>
-              <p id="stationInfo">Station Info Panel</p>
+          <div id="stations_list">
           </div>
       </div>
 
@@ -49,6 +46,8 @@
       <div id="map"></div>
 
       <div id="more_info"></div>
+
+      <div id="python_json_connect"></div>
 
       <!--load map from googlemaps API using defer to load last-->
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg2sU2u51CSm_oPPVdNrDTIyHW9GU29MY&callback=initMap" async defer>

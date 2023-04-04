@@ -6,6 +6,7 @@ function getStations() {
     .then((data) => {
         console.log("fetch response", typeof data);
         addMarkers(data);
+        listStations(data);
     });
 }
 
@@ -25,11 +26,12 @@ function addMarkers(stations){
             //add onclick event listener to each marker
             google.maps.event.addListener(marker, 'click', (function(marker) {
                 return function() {
-                    infoWindow.setContent(marker.title+'<br><hr><button id="markerInfo" class="markerButton">more info</button>');
+                    infoWindow.setContent(marker.title+'<br><hr><button id="markerInfo" class="markerButton" onclick="moreInfo()">more info</button>');
                     infoWindow.open(map, marker);
                 }
             })(marker, i));
             }
+            test123();
 }
 
 //initialize the map
@@ -50,25 +52,42 @@ document.getElementById("list_stations").onclick = function(){listStations()};
 
 function needBike(){
     document.getElementById('tripPlanner').style.display = 'none';
+    document.getElementById('stations_list').style.display = 'none';
     document.getElementById('mapHeader').innerHTML='Your closest Bike:';
 }
 function returnBike(){
     document.getElementById('tripPlanner').style.display = 'none';
+    document.getElementById('stations_list').style.display = 'none';
     document.getElementById('mapHeader').innerHTML='Your closest Station:';
 }
 function planTrip(){
     document.getElementById('tripPlanner').style.display = 'block';
+    document.getElementById('stations_list').style.display = 'none';
     document.getElementById('mapHeader').innerHTML='Stations for your trip:';
 }
-function listStations(){
-    var content = 'hhh';
+function listStations(stations){
+    document.getElementById('stations_list').style.display = 'block';
+    var content = '<ul>';
+    for (var i=0; i<stations.length; i++){
+        content += '<li><a>'+stations[i].address+'</a></li>';
+    }
+    content += '</ul';
     document.getElementById('stations_list').innerHTML=content;
 }
 
 var map = null;
 window.initMap = initMap;
 
-document.getElementById("markerInfo").onclick = function() {planTrip()};
+document.getElementById("markerInfo").onclick = function() {planTrip(); console.log("more info clicked")};
 function moreInfo(){
     document.getElementById("stationInfo").innerHTML = "more info panel";
+}
+
+function test123(){
+    fetch("../../bike_station_data/locationsCopy.json")
+    .then((response) => response.json)
+    .then(data => {console.log(data); return data;})
+    .then((data) => {
+        console.log("fetch response", typeof data);
+        });
 }

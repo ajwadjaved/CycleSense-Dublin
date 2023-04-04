@@ -107,3 +107,19 @@ input[type='date']{
     color: grey;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+li a{
+    display: inline;
+    padding: 5px;
+    text-decoration: none;
+}
+#stations_list {
+    padding: 0;
+    width: 20%;
+}
+#stations_list li {
+    display: inline;
+    list-style-type: none;
+    padding: 0 0 5px 15px;
+    display: -moz-inline-box;
+    float: left;
+}
