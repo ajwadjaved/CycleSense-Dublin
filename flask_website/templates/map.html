@@ -6,8 +6,10 @@
     <title>Dublin Map</title>
     <!-- link to stylesheet in static/css folder -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="icon" type="image/jpeg" href="flask_website/static/pin.jpeg">
 </head>
 <body>
+
   <div class="wrapper">
       <div id="header">
             <h4>Group 19: Ajwad | Ian | Judith</h4>
@@ -20,7 +22,7 @@
                      <button id="need_bike" class="button"><span>Looking for a Bike</span></button>
                      <button id="return_bike" class="button"><span>Returning a Bike</span></button>
                      <button id="plan_trip" class="button"><span>Planning a Trip</span></button>
-                     <button id="list_stations" class="button"><span>Stations List</span></button>
+                     <button id="list_stations" class="button" onclick="openNav()"><span>Stations List</span></button>
                  </div>
              <div id="userTripForm"></div>
 
@@ -38,23 +40,36 @@
            <br>
             <!--Map header changes depending on what the user is looking for-->
             <h2 id="mapHeader">All available stations:</h2>
-          <div id="stations_list">
+              <div id="stationInfo">
+                  {% for info in info%}
+                  {{info}}
+                  {%endfor%}
+              </div>
           </div>
+
+
+        <div id="stationsSidepanel" class="sidepanel">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" style="position: sticky; float: right; padding-top: 10px;">x</a>
+            <h2 style="color:#fff; padding-left: 32px;">All Stations</h2>
+        </div>
+      <script>
+          function openNav() {
+                document.getElementById("stationsSidepanel").style.width = "250px";
+          }
+          function closeNav() {
+                document.getElementById("stationsSidepanel").style.width = "0";
+          }
+      </script>
       </div>
 
       <!--Map container-->
       <div id="map"></div>
-
-      <div id="more_info"></div>
-
-      <div id="python_json_connect"></div>
 
       <!--load map from googlemaps API using defer to load last-->
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg2sU2u51CSm_oPPVdNrDTIyHW9GU29MY&callback=initMap" async defer>
       </script>
       <!--link to js file for functions and api key-->
       <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>
-  </div>
 
 </body>
 </html>
