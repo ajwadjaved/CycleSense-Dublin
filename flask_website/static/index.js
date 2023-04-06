@@ -1,6 +1,7 @@
-//get stations names and locations for marker placement
+
+//get stations names and locations for marker placement - calls addMarkers()
 function getStations() {
-    fetch('../static/locations.json')
+    fetch('/stations')
     .then((response) => response.json())
     .then(data => {console.log(data); return data;})
     .then((data) => {
@@ -10,10 +11,11 @@ function getStations() {
     });
 }
 
-//function to add markers to map using a for loop instead of forEach()
+//function to add markers to map - adds unique infoWindow for each
 function addMarkers(stations){
         //create infoWindow for marker onclick event
         var infoWindow = new google.maps.InfoWindow();
+        var markers = new Array();
 
         //loop through data array of locations and create a marker at each one
         for (var i=0; i<stations.length; i++) {
@@ -23,19 +25,19 @@ function addMarkers(stations){
                 title: stations[i].address,
                 station_number: stations[i].number,
             });
-            //add onclick event listener to each marker for infoWindow - id set to station id for individual access
+            markers.push(marker);
+            // add marker popup to each
             google.maps.event.addListener(marker, 'click', (function(marker) {
+                var content = 'Name: '+stations[i].address+'<br>Number: '+stations[i].number+'<br>Position: '+marker.position
                 return function() {
-                    infoWindow.setContent(marker.title+'<br><hr><a id="'+marker.station_number+'" href="station/'+marker.station_number+'">more info</a>');
+                    infoWindow.setContent(content+'<br><hr><button id="'+marker.station_number+'" class="marker_link" onclick="moreInfo('+marker.station_number+')"'+marker.station_number+'">more info</button>');
                     infoWindow.open(map, marker);
                 }
             })(marker, i));
 
+            }
         }
-
-}
-
-//initialize the map
+//initialize the map - calls getStations
 function initMap() {
     //create map and center it on dublin
     var dublin = {lat: 53.350140, lng: -6.266155};
@@ -50,6 +52,7 @@ document.getElementById("need_bike").onclick = function() {needBike()};
 document.getElementById("return_bike").onclick = function() {returnBike()};
 document.getElementById("plan_trip").onclick = function() {planTrip()};
 
+//functions for user input choice - need, return and plan
 function needBike(){
     document.getElementById('tripPlanner').style.display = 'none';
     document.getElementById('stations_list').style.display = 'none';
@@ -66,16 +69,14 @@ function planTrip(){
     document.getElementById('mapHeader').innerHTML='Stations for your trip:';
 }
 
+// list stations from json into side panel
 function listStations(stations){
     for (var i=0; i<stations.length; i++){
-        var content = '<a href=station/'+stations[i].number+'>'+stations[i].address+'</a>';
+        var content = '<a href="javascript:void(0)" onclick="getStationInfo('+stations[i].number+')">'+stations[i].address+'</a>';
         document.getElementById('stationsSidepanel').innerHTML+=content;
     }
 }
 
+// initialise map on browser window
 var map = null;
 window.initMap = initMap;
-
-function moreInfo(){
-    document.getElementById("stationInfo").innerHTML = "more info panel";
-}
