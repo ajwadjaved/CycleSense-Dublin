@@ -13,6 +13,7 @@ function getStations() {
 
 //function to add markers to map - adds unique infoWindow for each
 function addMarkers(stations){
+        console.log("addMarkers function called")
         //create infoWindow for marker onclick event
         var infoWindow = new google.maps.InfoWindow();
         var markers = new Array();
@@ -43,6 +44,7 @@ function initMap() {
     var dublin = {lat: 53.350140, lng: -6.266155};
     map = new google.maps.Map(document.getElementById('map'), {
     zoom: 13.2, center: dublin,});
+    console.log("initMap function called")
 
     getStations();
 }
@@ -55,28 +57,29 @@ document.getElementById("plan_trip").onclick = function() {planTrip()};
 //functions for user input choice - need, return and plan
 function needBike(){
     document.getElementById('tripPlanner').style.display = 'none';
-    document.getElementById('stations_list').style.display = 'none';
     document.getElementById('mapHeader').innerHTML='Your closest Bike:';
 }
 function returnBike(){
     document.getElementById('tripPlanner').style.display = 'none';
-    document.getElementById('stations_list').style.display = 'none';
     document.getElementById('mapHeader').innerHTML='Your closest Station:';
 }
 function planTrip(){
     document.getElementById('tripPlanner').style.display = 'block';
-    document.getElementById('stations_list').style.display = 'none';
     document.getElementById('mapHeader').innerHTML='Stations for your trip:';
 }
 
-// list stations from json into side panel
+// list stations from json into side panel - each calls getAvailability(station_number) onclick
 function listStations(stations){
     for (var i=0; i<stations.length; i++){
-        var content = '<a href="javascript:void(0)" onclick="getStationInfo('+stations[i].number+')">'+stations[i].address+'</a>';
+        var content = '<a href="javascript:void(0)" onclick="getAvailability('+stations[i].number+')">'+stations[i].address+'</a>';
         document.getElementById('stationsSidepanel').innerHTML+=content;
     }
 }
-
+function test123(x){
+    fetch('/availability/'+id)
+    .then((response)=> response.json())
+    .then(data => {console.log(data); return data});
+}
 // initialise map on browser window
 var map = null;
 window.initMap = initMap;

@@ -6,7 +6,7 @@
     <title>Dublin Map</title>
     <!-- link to stylesheet in static/css folder -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='index.js') }}" async defer></script>
 
 </head>
 <body>
@@ -42,9 +42,6 @@
             <!--Map header changes depending on what the user is looking for-->
             <h2 id="mapHeader">All available stations:</h2>
               <div id="stationInfo">
-                  {% for info in info%}
-                  {{info}}
-                  {%endfor%}
               </div>
           </div>
 
@@ -56,7 +53,7 @@
 
       <script>
           function moreInfo(id){
-                document.getElementById("stationInfo").innerHTML = "more info panel for Station No: "+id;
+                document.getElementById("stationInfo").innerHTML = "returning info for Station No: "+id;
           }
           function openNav() {
                 document.getElementById("stationsSidepanel").style.width = "250px";
@@ -64,20 +61,20 @@
           function closeNav() {
                 document.getElementById("stationsSidepanel").style.width = "0";
           }
-          function getStationInfo(id) {
-                // gets dynamic station info from database
-                fetch('/station/'+id)
-                .then((response) => response.json())
-                .then(data => {console.log(data); return data})
-                .then((data) => {
-                    moreInfo(id);
-                    closeNav();
-                });
-          }
           function getWeatherInfo(id) {
-            // gets dynamic weather info from
+            // gets dynamic weather info from database
           }
-
+          function getAvailability(id) {
+            console.log('getAvailability function called');
+            // gets dynamic station info from database
+            fetch('/availability/'+id)
+            .then((response) => response.json())
+            .then(data => {console.log(data); return data;})
+            .then((data) => {
+                moreInfo(id);
+                closeNav();
+            });
+          }
       </script>
       </div>
       <!--Map container-->
