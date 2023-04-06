@@ -2,6 +2,7 @@ import credentials
 import dbinfo
 from sqlalchemy import create_engine, text
 import datetime
+import json
 
 
 class DBConnector:
@@ -117,10 +118,28 @@ class DBConnector:
                                          "available bike stands": row[2]}
         return time_availability
 
+    def most_recent(self, station: int):
+        with self.engine.begin() as connection:
+            query = text("""
+                SELECT *
+                FROM availability
+                WHERE NUMBER = {}
+                  AND last_update = ANY (SELECT MAX(last_update)
+                                         FROM availability
+                                         WHERE NUMBER = {});
+                """.format(station, station)
+                         )
+            # mappings().all() get all rows as an array of RowDictionary(column: value)
+            rows = connection.execute(query).mappings().all()
+        # get first RowDictionary, since the query would always return only 1 row
+        row_dict = dict(rows[0])
+        # default=str solves non-JSON-serializable columns, like datetime - converts it to string
+        return json.dumps(row_dict, indent=4, default=str)
+
+
 
 def tests():
     connector = DBConnector()
-    print(connector.return_hourly_station_data(17, 24))
+    print(connector.most_recent(11))
 
-
-# tests()
+tests()
