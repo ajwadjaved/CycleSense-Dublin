@@ -3,20 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dublin Map</title>
+    <title>Dublin Bikes 19</title>
     <!-- link to stylesheet in static/css folder -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <script type="module" src="{{ url_for('static', filename='index.js') }}" async defer></script>
 
 </head>
 <body>
 
   <div class="wrapper">
       <div id="header">
-            <h4>Group 19: Ajwad | Ian | Judith</h4>
-            <hr>
+            <h4 style="float: right;">Group 19: Ajwad | Ian | Judith</h4>
 
-            <!-- Form which reads user input. Output changed depending on choice -->
+            <!-- Form which reads user input. Output changes depending on choice -->
              <div id="user_input">
                  <h2>I am...</h2>
                  <div id="IAmForm">
@@ -51,9 +49,12 @@
             <h2 style="color:#fff; padding-left: 32px;">All Stations</h2>
         </div>
 
+      <!--Map container-->
+      <div id="map"></div>
       <script>
           function moreInfo(id){
                 document.getElementById("stationInfo").innerHTML = "returning info for Station No: "+id;
+                closeNav();
           }
           function openNav() {
                 document.getElementById("stationsSidepanel").style.width = "250px";
@@ -61,27 +62,18 @@
           function closeNav() {
                 document.getElementById("stationsSidepanel").style.width = "0";
           }
-          function getWeatherInfo(id) {
-            // gets dynamic weather info from database
-          }
           function getAvailability(id) {
             console.log('getAvailability function called');
-            // gets dynamic station info from database
-            fetch('/availability/'+id)
-            .then((response) => response.json())
-            .then(data => {console.log(data); return data;})
-            .then((data) => {
-                moreInfo(id);
-                closeNav();
-            });
+            moreInfo(id);
           }
       </script>
-      </div>
-      <!--Map container-->
-      <div id="map"></div>
+  </div>
+
+
+      <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>
 
       <!--load map from googlemaps API using defer to load last-->
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg2sU2u51CSm_oPPVdNrDTIyHW9GU29MY&callback=initMap" async defer>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg2sU2u51CSm_oPPVdNrDTIyHW9GU29MY&callback=initMap" defer>
       </script>
 
 </body>

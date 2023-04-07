@@ -17,8 +17,8 @@ h3 {
     font-size: 1em;
     }
 .wrapper {
-    padding: 20px;
     width: 100%;
+    transition: 0.5s ease-in-out;
 }
 a {
     text-decoration: none;
@@ -64,7 +64,7 @@ a:hover {
 
 }
 #map {
-    height: 100%;
+    height: 40em;
     max-width: 100%;
     margin: auto;
 }
@@ -96,7 +96,7 @@ a:hover {
     right: -10px;
     transition: 0.5s;
 }
-.button:hover{
+#IAmForm button:hover{
     background-color: #89D17E;
 }
 .button:hover span{
@@ -107,18 +107,18 @@ a:hover {
     right: 0;
 }
 .markerButton {
-    display: inline-block;
+    display: block;
     border-radius: 2px;
     background-color: #356A59;
     border: none;
     color: white;
-    font-size: 9px;
+    font-size: 15px;
     padding: 10px;
     width: 150px;
     text-align: center;
     transition: all 0.5s;
     cursor: pointer;
-    margin: 1px;
+    margin: auto;
 }
 .markerButton:hover {
     background-color: #89D17E;

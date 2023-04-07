@@ -24,9 +24,8 @@ def stations():
 def availability(station_id):
     # returns most recent data on bike availability at given station ----------- wip -----------
     # test on full internet connection - sqlalchemy.exc.OperationalError: can't connect (timed out)
-    d = DBConnector()
-    a = DBConnector.most_recent(d, station_id)
-    return a
+
+    return station_id
 
 
 @app.route("/weather/<int:station_id>")

@@ -31,7 +31,7 @@ function addMarkers(stations){
             google.maps.event.addListener(marker, 'click', (function(marker) {
                 var content = 'Name: '+stations[i].address+'<br>Number: '+stations[i].number+'<br>Position: '+marker.position
                 return function() {
-                    infoWindow.setContent(content+'<br><hr><button id="'+marker.station_number+'" class="marker_link" onclick="moreInfo('+marker.station_number+')"'+marker.station_number+'">more info</button>');
+                    infoWindow.setContent(content+'<br><hr><button id="'+marker.station_number+'" class="markerButton" onclick="moreInfo('+marker.station_number+')"'+marker.station_number+'">more info</button>');
                     infoWindow.open(map, marker);
                 }
             })(marker, i));
