@@ -1,73 +1,88 @@
-html { overflow-y: scroll;}
+html {
+    overflow-y: scroll;
+}
+
 body {
-    margin:auto;
-    padding:10px;
+    margin: auto;
+    padding: 10px;
     height: 100%;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #356A59;
-   }
+}
+
 h1 {
     font-size: 3em;
     margin-top: 40px;
-    }
+}
+
 h2 {
     font-size: 1.5em;
-    }
+}
+
 h3 {
     font-size: 1em;
-    }
+}
+
 .wrapper {
     width: 100%;
     transition: 0.5s ease-in-out;
 }
+
 a {
     text-decoration: none;
     color: blue;
 }
+
 a:hover {
     color: red;
 }
+
 #header {
     max-width: 90%;
-    margin:auto;
+    margin: auto;
 }
+
 .sidepanel {
     width: 0;
     position: fixed;
     z-index: 1;
     height: 100%;
     top: 0;
-    left:0;
+    left: 0;
     background-color: rgb(53, 106, 89, 0.9);
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
 }
-.sidepanel a{
-    padding:8px 8px 8px 32px;
+
+.sidepanel a {
+    padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 15px;
     color: #fff;
     display: block;
     transition: 0.3s;
 }
-.sidepanel a:hover{
+
+.sidepanel a:hover {
     color: #fff;
 }
-.sidepanel .closebtn{
+
+.sidepanel .closebtn {
     position: absolute;
     top: 0;
     right: 25px;
     font-size: 30px;
 }
-.stationInfo {
 
-}
+.stationInfo {}
+
 #map {
     height: 40em;
     max-width: 100%;
     margin: auto;
 }
+
 #IAmForm button {
     display: inline-block;
     border-radius: 4px;
@@ -82,12 +97,14 @@ a:hover {
     cursor: e-resize;
     margin: 2px;
 }
+
 .button span {
     cursor: e-resize;
     display: inline-block;
     position: relative;
     transition: 0.5s;
 }
+
 .button span:after {
     content: '\00bb';
     position: absolute;
@@ -96,16 +113,20 @@ a:hover {
     right: -10px;
     transition: 0.5s;
 }
-#IAmForm button:hover{
+
+#IAmForm button:hover {
     background-color: #89D17E;
 }
-.button:hover span{
+
+.button:hover span {
     padding-right: 15px;
 }
+
 .button:hover span:after {
     opacity: 1;
     right: 0;
 }
+
 .markerButton {
     display: block;
     border-radius: 2px;
@@ -120,9 +141,11 @@ a:hover {
     cursor: pointer;
     margin: auto;
 }
+
 .markerButton:hover {
     background-color: #89D17E;
 }
+
 #floating_panel {
     top: 10px;
     left: 25px;
@@ -132,10 +155,12 @@ a:hover {
     line-height: 30px;
     padding-left: 10px;
 }
+
 .hide {
     display: none;
 }
-input[type='date']{
+
+input[type='date'] {
     color: grey;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
