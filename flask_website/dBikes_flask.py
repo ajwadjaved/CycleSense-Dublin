@@ -29,7 +29,7 @@ def availability(station_id):
 
 
 @app.route("/weather/<int:station_id>")
-def getWeather(station_id):
+def get_weather(station_id):
     # returns dynamic weather data for specific station --------- wip ---------
     pass
 
