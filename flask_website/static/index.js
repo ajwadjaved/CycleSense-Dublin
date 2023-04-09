@@ -11,12 +11,12 @@ function getStations() {
     });
 }
 
+let markers = new Array();
 //function to add markers to map - adds unique infoWindow for each
 function addMarkers(stations){
         console.log("addMarkers function called")
         //create infoWindow for marker onclick event
         var infoWindow = new google.maps.InfoWindow();
-        var markers = new Array();
 
         //loop through data array of locations and create a marker at each one
         for (var i=0; i<stations.length; i++) {
@@ -47,6 +47,7 @@ function initMap() {
     console.log("initMap function called")
 
     getStations();
+    directions({lat:53.349562, lng:-6.278198},{lat:53.33796,lng:-6.24153});
 }
 
 // return user location when looking for or returning a bike
@@ -56,7 +57,7 @@ function returnUserLocation(){
     if (navigator.geolocation){
         console.log("looking for your location.")
         navigator.geolocation.getCurrentPosition((position) =>{
-            const pos = {
+            var pos = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
             };
@@ -67,7 +68,7 @@ function returnUserLocation(){
         },
         () => {
             handleLocationError(true, infoWindow, map.getCenter());
-        });
+        })
     } else {
         // Browser doesn't support geolocation
         handleLocationError(false, infoWindow, map.getCenter());
@@ -84,6 +85,24 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos){
     infoWindow.open(map);
 }
 
+// return path from location to location
+function directions(start, end){
+    console.log('directions function called.')
+    var directionService = new google.maps.DirectionsService();
+    var directionRenderer = new google.maps.DirectionsRenderer();
+    directionRenderer.setMap(map);
+    var request = {
+        origin: start,
+        destination: end,
+        travelMode: 'WALKING'
+    };
+    directionService.route(request, function(result, status){
+        if(status == 'OK'){
+            directionRenderer.setDirections(result);
+        }
+    });
+}
+
 //read user input and vary div output depending on choice
 document.getElementById("need_bike").onclick = function() {needBike(); returnUserLocation()};
 document.getElementById("return_bike").onclick = function() {returnBike(); returnUserLocation()};
@@ -92,11 +111,11 @@ document.getElementById("plan_trip").onclick = function() {planTrip()};
 //functions for user input choice - need, return and plan
 function needBike(){
     document.getElementById('tripPlanner').style.display = 'none';
-    document.getElementById('mapHeader').innerHTML='Your closest Bike:';
+    document.getElementById('mapHeader').innerHTML='Finding your closest Bike...';
 }
 function returnBike(){
     document.getElementById('tripPlanner').style.display = 'none';
-    document.getElementById('mapHeader').innerHTML='Your closest Station:';
+    document.getElementById('mapHeader').innerHTML='Finding your closest Station...';
 }
 function planTrip(){
     document.getElementById('tripPlanner').style.display = 'block';
@@ -110,11 +129,7 @@ function listStations(stations){
         document.getElementById('stationsSidepanel').innerHTML+=content;
     }
 }
-function test123(x){
-    fetch('/availability/'+id)
-    .then((response)=> response.json())
-    .then(data => {console.log(data); return data});
-}
+
 // initialise map on browser window
 var map = null;
 window.initMap = initMap;
