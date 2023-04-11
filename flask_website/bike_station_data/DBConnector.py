@@ -143,9 +143,10 @@ class DBConnector:
                 FROM station;
             """)
             rows = connection.execute(query).mappings().all()
+        trueDicts = []
         for row in rows:
-            row = dict(row)
-        return json.dumps(rows, indent=4, default=str)
+            trueDicts.append(dict(row))
+        return json.dumps(trueDicts, indent=4, default=str)
 
 
 def tests():
