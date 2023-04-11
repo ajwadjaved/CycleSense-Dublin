@@ -1,5 +1,7 @@
 # to enable importing (dbinfo & credentials) from the parent folder (dublinbikesproject)
+import json
 import sys
+
 sys.path.append('..')
 import credentials
 import dbinfo
@@ -68,15 +70,29 @@ class DBConnector:
                 INSERT INTO historical_weather(date, time, weather, temp, speed, degrees, humidity)     
                 VALUES ('{}','{}','{}',{}, {}, {}, {});
                                 """
-                                    .format(weatherdata[0],
-                                            weatherdata[1],
-                                            weatherdata[2],
-                                            weatherdata[3],
-                                            weatherdata[4],
-                                            weatherdata[5],
-                                            weatherdata[6])
-                                    )
+                                 .format(weatherdata[0],
+                                         weatherdata[1],
+                                         weatherdata[2],
+                                         weatherdata[3],
+                                         weatherdata[4],
+                                         weatherdata[5],
+                                         weatherdata[6])
+                                 )
             connection.execute(insert_static)
+
+    def most_recent(self):
+        with self.engine.begin() as connection:
+            query = text("""
+                SELECT *
+                FROM historical_weather
+                WHERE date = CURDATE()
+                    AND time = ANY (SELECT MAX(time)
+                                    FROM historical_weather
+                                    WHERE date = CURDATE());
+            """)
+            rows = connection.execute(query).mappings().all()
+        row_dict = dict(rows[0])
+        return json.dumps(row_dict, indent=4, default=str)
 
     @staticmethod
     def process_str(string):
