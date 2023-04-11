@@ -1,23 +1,30 @@
 let markers = new Array();
-
+let stations = new Array();
+let UserLocation;
 //get stations names and locations for marker placement - calls addMarkers()
 function getStations() {
     fetch('/stations')
     .then((response) => response.json())
-    .then(data => {console.log(data); return data;})
+    .then(data => {return data;})
     .then((data) => {
         console.log("fetch response", typeof data);
         addMarkers(data);
-        listStations(data);
+        stations.push(data);
+        listStations(stations);
     });
 }
-
+function getAvailability(){
+    for(int i=0; i<markers.length; i++){
+        fetch('/availability/'+markers[i])
+        .then((response) => response.json())
+        .then((data) => {console.log(data); return data;});
+    }
+}
 //function to add markers to map - adds unique infoWindow for each
 function addMarkers(stations){
     console.log("addMarkers function called")
     //create infoWindow for marker onclick event
     var infoWindow = new google.maps.InfoWindow();
-    const image = "http://labs.google.com/ridefinder/images/mm_20_blue.png";
 
     //loop through data array of locations and create a marker at each one
     for (var i=0; i<stations.length; i++) {
@@ -26,7 +33,6 @@ function addMarkers(stations){
             map,
             title: stations[i].address,
             station_number: stations[i].number,
-            icon: image,
         });
         markers.push(marker);
         // add marker popup to each
@@ -35,9 +41,11 @@ function addMarkers(stations){
             return function() {
                 infoWindow.setContent(content+'<br><hr><button id="'+marker.station_number+'" class="markerButton" onclick="moreInfo('+marker.station_number+')"'+marker.station_number+'">more info</button>');
                 infoWindow.open(map, marker);
+                if(UserLocation!=null){
+                    directions(UserLocation, marker.position);
+                };
             }
         })(marker, i));
-
     }
 }
 //initialize the map - calls getStations
@@ -52,11 +60,38 @@ function initMap() {
     getStations();
 }
 
+// return closest marker from array - from https://stackoverflow.com/questions/45537011/google-map-api-get-closest-place-to-me-in-my-address
+function rad(x) { return x * Math.PI / 180; }
+function find_closest_marker(position) {
+    var lat = position.lat;
+    var lng = position.lng;
+    var R = 6371; // radius of earth in km
+    var distances = [];
+    var closest = -1;
+    for (var i = 0; i < markers.length; i++) {
+        if (markers[i]) {
+            var mlat = markers[i].position.lat();
+            var mlng = markers[i].position.lng();
+            var dLat = rad(mlat - lat);
+            var dLong = rad(mlng - lng);
+            var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(rad(lat)) * Math.cos(rad(lat)) * Math.sin(dLong / 2) * Math.sin(dLong / 2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            var d = R * c;
+            distances[i] = d;
+            if (closest == -1 || d < distances[closest]) {
+                closest = i;
+
+            }
+        }
+    }
+    console.log(markers[closest].position);
+    return (markers[closest].position);
+}
+
 // center map on user location when looking for or returning a bike
 function returnUserLocation(){
     var infoWindow = new google.maps.InfoWindow();
-    var marker = new google.maps.Marker();
-    const image = "http://labs.google.com/ridefinder/images/mm_20_red.png";
     // Try HTML5 geolocation
     if (navigator.geolocation){
         console.log("looking for your location.")
@@ -65,10 +100,10 @@ function returnUserLocation(){
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
             };
-            marker.setPosition(pos);
-            marker.setIcon(image);
-            marker.setMap(map);
-            map.setCenter(pos);
+            console.log("Pos: ",pos);
+            UserLocation = pos;
+            console.log("UserLocation:", UserLocation);
+            var closestMarker = find_closest_marker(pos);
         },
         () => {
             handleLocationError(true, marker, map.getCenter());
@@ -108,33 +143,29 @@ function directions(start, end){
         }
     });
 }
-
-// read user click for start and end to path planner ------ not finished ------
-// change to read and return two locations for path
-function pathFinder(){
-    while true{
-    map.addListener("click",(mapsMouseEvent) =>{
-            ClickStart = mapsMouseEvent.latLng;
-    });}
-}
-
+//function pathToNearest(user){
+//    var closestMarker =
+//}
 //read user input and vary div output depending on choice
-document.getElementById("need_bike").onclick = function() {needBike(); returnUserLocation()};
-document.getElementById("return_bike").onclick = function() {returnBike(); returnUserLocation()};
+document.getElementById("need_bike").onclick = function() {needBike();};
+document.getElementById("return_bike").onclick = function() {returnBike();};
 document.getElementById("plan_trip").onclick = function() {planTrip()};
 
 //functions for user input choice - need, return and plan
 function needBike(){
     document.getElementById('tripPlanner').style.display = 'none';
     document.getElementById('mapHeader').innerHTML='Finding your closest Bike...';
+    returnUserLocation();
 }
 function returnBike(){
     document.getElementById('tripPlanner').style.display = 'none';
     document.getElementById('mapHeader').innerHTML='Finding your closest Station...';
+    returnUserLocation();
 }
 function planTrip(){
     document.getElementById('tripPlanner').style.display = 'block';
     document.getElementById('mapHeader').innerHTML='Stations for your trip:';
+
 }
 
 // list stations from json into side panel - each calls getAvailability(station_number) onclick
