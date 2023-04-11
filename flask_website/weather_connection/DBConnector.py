@@ -98,3 +98,11 @@ class DBConnector:
     def process_str(string):
         # 2 single quotes: first single quote escapes the second in a sql insert query
         return string.replace("'", "''")
+
+
+def test():
+    connector = DBConnector()
+    print(connector.most_recent())
+
+
+test()

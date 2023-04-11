@@ -1,5 +1,5 @@
-from flask_website.bike_station_data import credentials
-from flask_website.bike_station_data import dbinfo
+import credentials
+import dbinfo
 from sqlalchemy import create_engine, text
 import datetime
 import json
@@ -136,9 +136,21 @@ class DBConnector:
         # default=str solves non-JSON-serializable columns, like datetime - converts it to string
         return json.dumps(row_dict, indent=4, default=str)
 
+    def all_static_stations(self):
+        with self.engine.begin() as connection:
+            query = text("""
+                SELECT NUMBER, address, position_lat, position_long
+                FROM station;
+            """)
+            rows = connection.execute(query).mappings().all()
+        for row in rows:
+            row = dict(row)
+        return json.dumps(rows, indent=4, default=str)
 
-# def tests():
-#     connector = DBConnector()
-#     print(connector.most_recent(11))
-#
+
+def tests():
+    connector = DBConnector()
+    print(connector.all_static_stations())
+
+
 # tests()
