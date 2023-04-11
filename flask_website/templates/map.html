@@ -24,6 +24,8 @@
                     <button id="return_bike" class="button"><span>Returning a Bike</span></button>
                     <button id="plan_trip" class="button"><span>Planning a Trip</span></button>
                     <button id="list_stations" class="button" onclick="openNav()"><span>Stations List</span></button>
+                    <button id="get_weather" class="button"><span>Weather Info</span></button>
+
                 </div>
                 <div id="userTripForm"></div>
 
@@ -73,13 +75,11 @@
         </script>
     </div>
 
-
+    <!-- link to js file for functions -->
     <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>
 
     <!--load map from googlemaps API using defer to load last-->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg2sU2u51CSm_oPPVdNrDTIyHW9GU29MY&callback=initMap"
-        defer>
-        </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg2sU2u51CSm_oPPVdNrDTIyHW9GU29MY&callback=initMap" defer></script>
 
 </body>
 
