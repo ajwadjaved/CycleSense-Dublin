@@ -1,19 +1,15 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template
 import json
-from datetime import datetime
+from bike_station_data.DBConnector import DBConnector
 
-from flask_website.bike_station_data.DBConnector import DBConnector
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def home():
-    f = open("static/locations.json")
-    data = json.load(f)
-    for d in data:
-        i = d['address']
-        return render_template('map.html', data=i)
+    # renders map.html template
+    return render_template('map.html')
 
 
 @app.route("/stations")
@@ -24,20 +20,16 @@ def stations():
     return data
 
 
-@app.route("/station/<int:station_id>")
-def station(station_id):
-    # returns dynamic occupancy data for specific station ----------- wip -----------
-    today = datetime.now()
-    hour = today.hour
-    # --------- create DBConnector object ----------
-    d = DBConnector
-# ------call function which returns most recent entry on availability from database at given station ---------
-#     w = DBConnector.return_hourly_station_data(d, station_id, hour)
-#     return jsonify(w)
+@app.route("/availability/<int:station_id>")
+def availability(station_id):
+    # get most recent bike info for given station
+    d = DBConnector()
+    s = d.most_recent(station_id)
+    return s
 
 
 @app.route("/weather/<int:station_id>")
-def getWeather(station_id):
+def get_weather(station_id):
     # returns dynamic weather data for specific station --------- wip ---------
     pass
 
