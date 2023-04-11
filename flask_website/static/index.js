@@ -1,24 +1,37 @@
 let markers = new Array();
-let stations = new Array();
+let stations;
 let UserLocation;
+let ClosestStation;
 //get stations names and locations for marker placement - calls addMarkers()
 function getStations() {
     fetch('/stations')
     .then((response) => response.json())
-    .then(data => {return data;})
+    .then(data => {console.log(data);return data;})
     .then((data) => {
         console.log("fetch response", typeof data);
         addMarkers(data);
-        stations.push(data);
-        listStations(stations);
+        stations = data;
+        console.log("Stations: ",stations);
+        listStations();
     });
 }
+// get availability for given station
 function getAvailability(){
-    for(int i=0; i<markers.length; i++){
+    for(var i=0; i<markers.length; i++){
         fetch('/availability/'+markers[i])
         .then((response) => response.json())
         .then((data) => {console.log(data); return data;});
     }
+}
+// get current weather information
+function getWeather(){
+    fetch('/weather')
+    .then((response) => response.json())
+    .then(data => {return data})
+    .then((data) => {
+        console.log("Current Weather: ",data);
+        showWeather(data);
+    });
 }
 //function to add markers to map - adds unique infoWindow for each
 function addMarkers(stations){
@@ -29,10 +42,10 @@ function addMarkers(stations){
     //loop through data array of locations and create a marker at each one
     for (var i=0; i<stations.length; i++) {
         var marker = new google.maps.Marker({
-            position: {lat:stations[i].latitude, lng: stations[i].longitude},
+            position: {lat:stations[i].position_lat, lng: stations[i].position_long},
             map,
             title: stations[i].address,
-            station_number: stations[i].number,
+            station_number: stations[i].NUMBER,
         });
         markers.push(marker);
         // add marker popup to each
@@ -41,9 +54,6 @@ function addMarkers(stations){
             return function() {
                 infoWindow.setContent(content+'<br><hr><button id="'+marker.station_number+'" class="markerButton" onclick="moreInfo('+marker.station_number+')"'+marker.station_number+'">more info</button>');
                 infoWindow.open(map, marker);
-                if(UserLocation!=null){
-                    directions(UserLocation, marker.position);
-                };
             }
         })(marker, i));
     }
@@ -84,8 +94,8 @@ function find_closest_marker(position) {
 
             }
         }
-    }
-    console.log(markers[closest].position);
+    };
+    console.log("closest marker: ",markers[closest].position[0]);
     return (markers[closest].position);
 }
 
@@ -100,10 +110,10 @@ function returnUserLocation(){
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
             };
-            console.log("Pos: ",pos);
             UserLocation = pos;
-            console.log("UserLocation:", UserLocation);
+            console.log("UserLocation from returnUserLocation():", UserLocation);
             var closestMarker = find_closest_marker(pos);
+            directions(UserLocation, closestMarker);
         },
         () => {
             handleLocationError(true, marker, map.getCenter());
@@ -126,11 +136,24 @@ function handleLocationError(browserHasGeolocation, marker, pos){
     infoWindow.open(map, marker);
 }
 
+// set map for all markers - hide or show
+function setMapOnAll(map){
+    for (let i=0; i< markers.length; i++){
+        markers[i].setMap(map);
+    }
+}
+function hideMarkers(){
+    setMapOnAll(null);
+}
+function showMarkers(){
+    setMapOnAll(map);
+    directionRenderer.setMap(null);
+}
 // return path from location to location - walking only
 function directions(start, end){
+    hideMarkers();
     var directionService = new google.maps.DirectionsService();
     var directionRenderer = new google.maps.DirectionsRenderer();
-    directionRenderer.setMap(null);
     directionRenderer.setMap(map);
     var request = {
         origin: start,
@@ -143,19 +166,18 @@ function directions(start, end){
         }
     });
 }
-//function pathToNearest(user){
-//    var closestMarker =
-//}
+
 //read user input and vary div output depending on choice
-document.getElementById("need_bike").onclick = function() {needBike();};
-document.getElementById("return_bike").onclick = function() {returnBike();};
-document.getElementById("plan_trip").onclick = function() {planTrip()};
+document.getElementById("need_bike").onclick = function() {needBike(); returnUserLocation();}
+document.getElementById("return_bike").onclick = function() {returnBike(); returnUserLocation();}
+document.getElementById("plan_trip").onclick = function() {planTrip()}
+document.getElementById("list_stations").onclick = function() {listStations();}
+document.getElementById("get_weather").onclick = function() {getWeather();}
 
 //functions for user input choice - need, return and plan
 function needBike(){
     document.getElementById('tripPlanner').style.display = 'none';
     document.getElementById('mapHeader').innerHTML='Finding your closest Bike...';
-    returnUserLocation();
 }
 function returnBike(){
     document.getElementById('tripPlanner').style.display = 'none';
@@ -165,15 +187,20 @@ function returnBike(){
 function planTrip(){
     document.getElementById('tripPlanner').style.display = 'block';
     document.getElementById('mapHeader').innerHTML='Stations for your trip:';
-
+    showMarkers();
 }
 
 // list stations from json into side panel - each calls getAvailability(station_number) onclick
-function listStations(stations){
+function listStations(){
     for (var i=0; i<stations.length; i++){
-        var content = '<a href="javascript:void(0)" onclick="getAvailability('+stations[i].number+')">'+stations[i].address+'</a>';
+        var content = '<a href="javascript:void(0)" onclick="getAvailability('+stations[i].NUMBER+')">'+stations[i].address+'</a>';
         document.getElementById('stationsSidepanel').innerHTML+=content;
     }
+}
+
+function showWeather(weather){
+    document.getElementById("weather_info").style.display = 'block';
+    document.getElementById('weather_info').innerHTML = weather;
 }
 
 // initialise map on browser window

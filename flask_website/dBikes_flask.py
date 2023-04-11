@@ -1,6 +1,6 @@
 from flask import Flask, render_template
-import json
-from bike_station_data.DBConnector import DBConnector
+from bike_station_data.DBConnector import DBConnector as BikesData
+from weather_connection.DBConnector import DBConnector as WeatherData
 
 
 app = Flask(__name__)
@@ -15,23 +15,25 @@ def home():
 @app.route("/stations")
 def stations():
     # returns static data of all stations
-    f = open('static/locations.json')
-    data = json.load(f)
-    return data
+    connector = BikesData()
+    stations = connector.all_static_stations()
+    return stations
 
 
 @app.route("/availability/<int:station_id>")
 def availability(station_id):
-    # get most recent bike info for given station
-    d = DBConnector()
-    s = d.most_recent(station_id)
-    return s
+    # get most recent bike info for given station - availability
+    connector = BikesData()
+    station_info = connector.most_recent(station_id)
+    return station_info
 
 
-@app.route("/weather/<int:station_id>")
-def get_weather(station_id):
+@app.route("/weather")
+def get_weather():
     # returns dynamic weather data for specific station --------- wip ---------
-    pass
+    connector = WeatherData()
+    station_info = connector.most_recent()
+    return station_info
 
 
 if __name__ == '__main__':

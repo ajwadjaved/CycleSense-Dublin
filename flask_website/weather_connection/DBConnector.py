@@ -3,8 +3,8 @@ import json
 import sys
 
 sys.path.append('..')
-import credentials
-import dbinfo
+from flask_website.weather_connection import credentials
+from flask_website.weather_connection import dbinfo
 from sqlalchemy import create_engine, text
 
 
@@ -100,9 +100,9 @@ class DBConnector:
         return string.replace("'", "''")
 
 
-def test():
-    connector = DBConnector()
-    print(connector.most_recent())
-
-
-test()
+# def test():
+#     connector = DBConnector()
+#     print(connector.most_recent())
+#
+#
+# test()

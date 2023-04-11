@@ -1,5 +1,5 @@
-import credentials
-import dbinfo
+from flask_website.bike_station_data import credentials
+from flask_website.bike_station_data import dbinfo
 from sqlalchemy import create_engine, text
 import datetime
 import json
@@ -149,9 +149,9 @@ class DBConnector:
         return json.dumps(trueDicts, indent=4, default=str)
 
 
-def tests():
-    connector = DBConnector()
-    print(connector.all_static_stations())
+# def tests():
+#     connector = DBConnector()
+#     print(connector.all_static_stations())
 
 
 # tests()
