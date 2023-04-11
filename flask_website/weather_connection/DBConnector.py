@@ -17,7 +17,7 @@ class DBConnector:
 
     def create_database(self):
         # text() converts string to compatible sql command
-        create_database = text("CREATE DATABASE IF NOT EXISTS dublin_bikes_db")
+        create_database = text("CREATE DATABASE IF NOT EXISTS historical_weather")
         # engine.begin() starts a transaction and auto-commits each sql command
         # "with" block would close the connection at the end automatically
         with self.engine.begin() as connection:
@@ -25,11 +25,14 @@ class DBConnector:
 
     def create_static_station_table(self):
         create_static_station_table = text("""
-                CREATE TABLE IF NOT EXISTS weather (
+                CREATE TABLE IF NOT EXISTS historical_weather (
                     date DATE,
                     time TIME,
                     weather VARCHAR(128),
-                    degrees FLOAT,
+                    temp FLOAT,
+                    speed FLOAT,
+                    degrees INT,
+                    humidity INT,
                     PRIMARY KEY (date,time)
                 );
             """)
@@ -52,7 +55,7 @@ class DBConnector:
         check_column_types = text("""
                 SELECT COLUMN_NAME, DATA_TYPE
                 FROM information_schema.COLUMNS
-                WHERE TABLE_NAME = 'weather'
+                WHERE TABLE_NAME = 'historical_weather'
             """)
         with self.engine.begin() as connection:
             for column in connection.execute(check_column_types):
@@ -62,13 +65,16 @@ class DBConnector:
         print(weatherdata)
         with self.engine.begin() as connection:
             insert_static = text("""
-                INSERT INTO weather(date, time, weather, degrees)
-                VALUES ('{}','{}','{}',{});
+                INSERT INTO historical_weather(date, time, weather, temp, speed, degrees, humidity)     
+                VALUES ('{}','{}','{}',{}, {}, {}, {});
                                 """
                                     .format(weatherdata[0],
                                             weatherdata[1],
                                             weatherdata[2],
-                                            weatherdata[3])
+                                            weatherdata[3],
+                                            weatherdata[4],
+                                            weatherdata[5],
+                                            weatherdata[6])
                                     )
             connection.execute(insert_static)
 
