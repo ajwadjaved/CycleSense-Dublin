@@ -23,6 +23,10 @@ h3 {
     font-size: 1em;
 }
 
+.float_right {
+    float: right;
+}
+
 .wrapper {
     width: 100%;
     transition: 0.5s ease-in-out;
@@ -75,8 +79,6 @@ a:hover {
     right: 25px;
     font-size: 30px;
 }
-
-.stationInfo {}
 
 #map {
     height: 40em;
@@ -169,12 +171,12 @@ image {
     background-color: white;
     border: #534EA9 2px solid;
     color: #534EA9;
-    padding: 10px;
+    padding: 20px;
     float: right;
-    position: fixed;
-    z-index: 2;
+    position: absolute;
+    z-index: 4;
     top: 10em;
-    right: 15px;
+    left: 8em;
 }
 
 #more_station_info {
@@ -183,13 +185,14 @@ image {
     background-color: white;
     border: #534EA9 2px solid;
     color: #534EA9;
-    padding: 10px;
+    padding: 20px;
     float: right;
-    position: fixed;
-    z-index: 3;
+    position: absolute;
+    z-index: 5;
     top: 25em;
-    right: 15px;
+    left: 8em;
 }
+
 input[type='date'] {
     color: #98A9CA;
     padding: 5px;

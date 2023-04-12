@@ -14,33 +14,19 @@
 
     <div class="wrapper">
         <div id="header">
-            <h4 style="float: right;">Group 19: Ajwad | Ian | Judith</h4>
+            <h3 class="float_right">Group 19: Ajwad | Ian | Judith</h3>
 
-            <!-- Form which reads user input. Output changes depending on choice -->
             <div id="user_input">
-                <image src="/static/bike.svg"></image>
+                <!-- "home" image to reload page -->
+                <a href="javascript:void(0)" onclick="location.reload()"><image src="/static/bike.svg"></image></a>
+
+                <!-- Form which reads user input. Output changes depending on choice -->
                 <div id="IAmForm">
                     <button id="need_bike" class="button"><span>Need a Bike</span></button>
                     <button id="return_bike" class="button"><span>Returning a Bike</span></button>
                     <button id="plan_trip" class="button"><span>Planning a Trip</span></button>
-                    <br>
                     <button id="list_stations" class="button" onclick="openNav()"><span>Stations List</span></button>
                     <button id="get_weather" class="button"><span>Weather Info</span></button>
-
-                    <div id="weather_info">
-                        <a href="javascript:void(0)" class="closebtn" onclick="hideWeather()" style="position: sticky; float: left;">
-                            <image src="/static/small_cross.svg"></image></a><br>
-                            <image src="/static/cloud.svg"></image>
-                            <h2>Weather Information</h2>
-                            <p id="weather_data"></p>
-                    </div>
-                    <div id="more_station_info">
-                        <a href="javascript:void(0)" class="closebtn" onclick="hideInfo()" style="position: sticky; float: left;">
-                            <image src="/static/small_cross.svg"></image>
-                        </a><br>
-                        <h3>More Station Info</h3>
-                        <p id="station_data"></p>
-                    </div>
 
                 </div>
                 <div id="userTripForm"></div>
@@ -58,23 +44,42 @@
             </div>
             <br>
             <!--Map header changes depending on what the user is looking for-->
-            <h2 id="mapHeader">All available stations:</h2>
-            <div id="stationInfo">
-            </div>
+            <h2 id="mapHeader" style="text-align-last: center">All available stations:</h2>
         </div>
 
+        <!-- panel to show list of stations -->
         <div id="stationsSidepanel" class="sidepanel">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
                 style="position: sticky; float: right; padding-top: 10px;"><image src="/static/cross.svg"></image></a>
             <h2 style="color:#534EA9; padding-left: 32px;">All Stations</h2>
         </div>
 
+        <!-- panel for weather information - shown if desired -->
+        <div id="weather_info">
+            <a href="javascript:void(0)" class="closebtn" onclick="hideWeather()" style="position: sticky; float: left;">
+                <image src="/static/small_cross.svg"></image></a><br>
+            <image src="/static/cloud.svg"></image>
+            <h2>Weather Information</h2>
+            <p id="weather_data"></p>
+        </div>
+
+        <!-- panel for more info on a particular station - shown if desired -->
+        <div id="more_station_info">
+            <a href="javascript:void(0)" class="closebtn" onclick="hideInfo()" style="position: sticky; float: left;">
+                <image src="/static/small_cross.svg"></image>
+            </a><br>
+            <h3>More Station Info</h3>
+            <p id="station_data"></p>
+        </div>
+
         <!--Map container-->
         <div id="map"></div>
+
+        <!-- functions called from objects created through index.js file -->
         <script async defer>
             function moreInfo(id) {
                 document.getElementById("more_station_info").style.display = 'block';
-                document.getElementById("station_data").innerHTML = "returning info for Station No: " + id;
+                document.getElementById("station_data").innerHTML = "variable: returning info for Station No: " + id;
                 closeNav();
             }
             function hideInfo() {

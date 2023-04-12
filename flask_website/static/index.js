@@ -76,9 +76,17 @@ function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
     zoom: 13.6, center: dublin,});
     console.log("initMap function called");
+    var image = "/static/purple_marker.svg";
+
+    var m = new google.maps.Marker({
+        map,
+        position: dublin,
+        icon: image,
+    });
+    markers.push(m);
 
     // fill map with station markers through getStations when loading map
-    getStations();
+//    getStations();
 }
 
 // return closest marker from array - from https://stackoverflow.com/questions/45537011/google-map-api-get-closest-place-to-me-in-my-address
@@ -123,7 +131,7 @@ function returnUserLocation(){
             };
             UserLocation = pos;
             console.log("UserLocation from returnUserLocation():", UserLocation);
-            var closestMarker = find_closest_marker(pos);
+            var closestMarker = find_closest_marker(UserLocation);
             directions(UserLocation, closestMarker);
         },
         () => {
@@ -210,7 +218,44 @@ function listStations(){
 
 function showWeather(weather){
     document.getElementById('weather_info').style.display = 'block';
-    document.getElementById('weather_data').innerHTML = "showing todays weather";
+    document.getElementById('weather_data').innerHTML = "variable: showing todays weather";
+    dragElement(document.getElementById('weather_info'));
+}
+dragElement(document.getElementById('more_station_info'));
+function dragElement(elmnt){
+    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    if (document.getElementById(elmnt.id + "header")) {
+    document.getElementById(elmnt.id+"header").onmousedown = dragMouseDown;
+    } else {
+        elmnt.onmousedown = dragMouseDown;
+    }
+
+    function dragMouseDown(e){
+        e = e || window.event;
+        e.preventDefault();
+        // get cursor position at startup
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        document.onmousemove = elementDrag;
+    }
+    function elementDrag(e){
+        e = e || window.event;
+        e.preventDefault();
+        // get new cursor position
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        // set elements new position
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+}
+    function closeDragElement(){
+        // stop moving when mouse released
+        document.onmouseup = null;
+        document.onmousemove = null;
+    }
 }
 
 // initialise map on browser window
