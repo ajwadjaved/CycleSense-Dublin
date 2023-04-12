@@ -187,7 +187,7 @@ image {
     float: right;
     position: fixed;
     z-index: 3;
-    bottom: 20em;
+    top: 25em;
     right: 15px;
 }
 input[type='date'] {

@@ -32,12 +32,14 @@
                             <image src="/static/small_cross.svg"></image></a><br>
                             <image src="/static/cloud.svg"></image>
                             <h2>Weather Information</h2>
+                            <p id="weather_data"></p>
                     </div>
                     <div id="more_station_info">
                         <a href="javascript:void(0)" class="closebtn" onclick="hideInfo()" style="position: sticky; float: left;">
                             <image src="/static/small_cross.svg"></image>
                         </a><br>
-                        <span>More Station Info</span><br>
+                        <h3>More Station Info</h3>
+                        <p id="station_data"></p>
                     </div>
 
                 </div>
@@ -72,7 +74,7 @@
         <script async defer>
             function moreInfo(id) {
                 document.getElementById("more_station_info").style.display = 'block';
-                document.getElementById("more_station_info").innerHTML += "returning info for Station No: " + id;
+                document.getElementById("station_data").innerHTML = "returning info for Station No: " + id;
                 closeNav();
             }
             function hideInfo() {

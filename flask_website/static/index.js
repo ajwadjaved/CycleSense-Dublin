@@ -53,7 +53,7 @@ function addMarkers(stations){
             map,
             title: stations[i].address,
             station_number: stations[i].NUMBER,
-            icon: image;
+            icon: image,
         });
         markers.push(marker);
         // add marker popup to each
@@ -210,7 +210,7 @@ function listStations(){
 
 function showWeather(weather){
     document.getElementById('weather_info').style.display = 'block';
-    document.getElementById('weather_info').innerHTML += "showing todays weather";
+    document.getElementById('weather_data').innerHTML = "showing todays weather";
 }
 
 // initialise map on browser window
