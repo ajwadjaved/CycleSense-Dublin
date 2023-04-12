@@ -7,7 +7,7 @@ body {
     padding: 10px;
     height: 100%;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #356A59;
+    color: #343073;
 }
 
 h1 {
@@ -49,8 +49,9 @@ a:hover {
     height: 100%;
     top: 0;
     left: 0;
-    background-color: rgb(53, 106, 89, 0.9);
+    background-color: white;
     overflow-x: hidden;
+    border-right: #534EA9 2px solid;
     transition: 0.5s;
     padding-top: 60px;
 }
@@ -59,7 +60,7 @@ a:hover {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 15px;
-    color: #fff;
+    color: #534EA9;
     display: block;
     transition: 0.3s;
 }
@@ -81,28 +82,34 @@ a:hover {
     height: 40em;
     max-width: 100%;
     margin: auto;
+    border-radius: 4px;
+    border: #534EA9 2px solid;
+}
+
+image {
+    z-index: -1;
 }
 
 #IAmForm button {
     display: inline-block;
     border-radius: 4px;
-    background-color: #356A59;
-    border: none;
-    color: white;
+    border: #534EA9 2px solid;
+    background-color: white;
+    color: #534EA9;
     font-size: 18px;
     padding: 20px;
-    width: 200px;
+    max-width: 210px;
     text-align: center;
-    transition: all 0.5s;
-    cursor: e-resize;
+    transition: all 0.2s;
     margin: 2px;
+    cursor: pointer;
 }
 
 .button span {
-    cursor: e-resize;
     display: inline-block;
     position: relative;
     transition: 0.5s;
+    cursor: pointer;
 }
 
 .button span:after {
@@ -111,11 +118,7 @@ a:hover {
     opacity: 0;
     top: 0;
     right: -10px;
-    transition: 0.5s;
-}
-
-#IAmForm button:hover {
-    background-color: #89D17E;
+    transition: 0.2s;
 }
 
 .button:hover span {
@@ -130,20 +133,20 @@ a:hover {
 .markerButton {
     display: block;
     border-radius: 2px;
-    background-color: #356A59;
+    background-color: #534EA9;
     border: none;
     color: white;
     font-size: 15px;
     padding: 10px;
     width: 150px;
     text-align: center;
-    transition: all 0.5s;
+    transition: all 0.2s;
     cursor: pointer;
     margin: auto;
 }
 
 .markerButton:hover {
-    background-color: #89D17E;
+    background-color: #98A9CA;
 }
 
 #floating_panel {
@@ -160,7 +163,37 @@ a:hover {
     display: none;
 }
 
+#weather_info {
+    display: none;
+    border-radius: 4px;
+    background-color: white;
+    border: #534EA9 2px solid;
+    color: #534EA9;
+    padding: 10px;
+    float: right;
+    position: fixed;
+    z-index: 2;
+    top: 10em;
+    right: 15px;
+}
+
+#more_station_info {
+    display: none;
+    border-radius: 4px;
+    background-color: white;
+    border: #534EA9 2px solid;
+    color: #534EA9;
+    padding: 10px;
+    float: right;
+    position: fixed;
+    z-index: 3;
+    bottom: 20em;
+    right: 15px;
+}
 input[type='date'] {
-    color: grey;
+    color: #98A9CA;
+    padding: 5px;
+    border-radius: 4px;
+    border: #98A9CA 2px solid;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }

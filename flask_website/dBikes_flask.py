@@ -30,7 +30,7 @@ def availability(station_id):
 
 @app.route("/weather")
 def get_weather():
-    # returns dynamic weather data for specific station --------- wip ---------
+    # returns dynamic weather data for specific station - current weather
     connector = WeatherData()
     station_info = connector.most_recent()
     return station_info

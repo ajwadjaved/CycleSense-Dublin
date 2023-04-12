@@ -2,6 +2,7 @@ let markers = new Array();
 let stations;
 let UserLocation;
 let ClosestStation;
+let thisAvailability;
 //get stations names and locations for marker placement - calls addMarkers()
 function getStations() {
     fetch('/stations')
@@ -11,19 +12,23 @@ function getStations() {
         console.log("fetch response", typeof data);
         addMarkers(data);
         stations = data;
-        console.log("Stations: ",stations);
         listStations();
     });
 }
 // get availability for given station
-function getAvailability(){
-    for(var i=0; i<markers.length; i++){
-        fetch('/availability/'+markers[i])
-        .then((response) => response.json())
-        .then((data) => {console.log(data); return data;});
+function getAvailability(station_number){
+    for (var i=0; i<markers.length; i++){
+        if (markers[i].NUMBER == station_number){
+            var marker = markers[i]
+                fetch('/availability/'+marker)
+                .then((response) => response.json())
+                .then((data) => {console.log(data); return data;})
+                .then(data =>{ thisAvailability = data;});
+                console.log(thisAvailability);
+        }
     }
 }
-// get current weather information
+// get current weather information --------- wip ----------
 function getWeather(){
     fetch('/weather')
     .then((response) => response.json())
@@ -38,6 +43,8 @@ function addMarkers(stations){
     console.log("addMarkers function called")
     //create infoWindow for marker onclick event
     var infoWindow = new google.maps.InfoWindow();
+    var image = "/static/purple_marker.svg";
+
 
     //loop through data array of locations and create a marker at each one
     for (var i=0; i<stations.length; i++) {
@@ -46,11 +53,15 @@ function addMarkers(stations){
             map,
             title: stations[i].address,
             station_number: stations[i].NUMBER,
+            icon: image;
         });
         markers.push(marker);
         // add marker popup to each
         google.maps.event.addListener(marker, 'click', (function(marker) {
-            var content = 'Name: '+stations[i].address+'<br>Number: '+stations[i].number+'<br>Position: '+marker.position
+            var content = 'Name: '+stations[i].address+'<br>Number: '+stations[i].NUMBER;
+            var availability = getAvailability(stations[i].NUMBER);
+            console.log(availability);
+            content += '<br>'+availability;
             return function() {
                 infoWindow.setContent(content+'<br><hr><button id="'+marker.station_number+'" class="markerButton" onclick="moreInfo('+marker.station_number+')"'+marker.station_number+'">more info</button>');
                 infoWindow.open(map, marker);
@@ -64,7 +75,7 @@ function initMap() {
     var dublin = {lat: 53.350140, lng: -6.266155};
     map = new google.maps.Map(document.getElementById('map'), {
     zoom: 13.6, center: dublin,});
-    console.log("initMap function called")
+    console.log("initMap function called");
 
     // fill map with station markers through getStations when loading map
     getStations();
@@ -142,9 +153,7 @@ function setMapOnAll(map){
         markers[i].setMap(map);
     }
 }
-function hideMarkers(){
-    setMapOnAll(null);
-}
+function hideMarkers(){setMapOnAll(null);}
 function showMarkers(){
     setMapOnAll(map);
     directionRenderer.setMap(null);
@@ -171,8 +180,8 @@ function directions(start, end){
 document.getElementById("need_bike").onclick = function() {needBike(); returnUserLocation();}
 document.getElementById("return_bike").onclick = function() {returnBike(); returnUserLocation();}
 document.getElementById("plan_trip").onclick = function() {planTrip()}
-document.getElementById("list_stations").onclick = function() {listStations();}
-document.getElementById("get_weather").onclick = function() {getWeather();}
+document.getElementById("list_stations").onclick = function() {listStations(); openNav();}
+document.getElementById("get_weather").onclick = function() {showWeather();}
 
 //functions for user input choice - need, return and plan
 function needBike(){
@@ -192,15 +201,16 @@ function planTrip(){
 
 // list stations from json into side panel - each calls getAvailability(station_number) onclick
 function listStations(){
-    for (var i=0; i<stations.length; i++){
-        var content = '<a href="javascript:void(0)" onclick="getAvailability('+stations[i].NUMBER+')">'+stations[i].address+'</a>';
+    for (var i=0; i<114; i++){
+        var content = '<a href=# onclick="getAvailability()">Sample Station</a>'
+//        var content = '<a href="javascript:void(0)" onclick="getAvailability('+stations[i].NUMBER+')">'+stations[i].address+'</a>';
         document.getElementById('stationsSidepanel').innerHTML+=content;
     }
 }
 
 function showWeather(weather){
-    document.getElementById("weather_info").style.display = 'block';
-    document.getElementById('weather_info').innerHTML = weather;
+    document.getElementById('weather_info').style.display = 'block';
+    document.getElementById('weather_info').innerHTML += "showing todays weather";
 }
 
 // initialise map on browser window

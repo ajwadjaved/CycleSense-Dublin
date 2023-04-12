@@ -7,7 +7,7 @@
     <title>Dublin Bikes 19</title>
     <!-- link to stylesheet in static/css folder -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-
+    <link rel="icon" type="image/svg" href="/static/bike.svg">
 </head>
 
 <body>
@@ -18,13 +18,27 @@
 
             <!-- Form which reads user input. Output changes depending on choice -->
             <div id="user_input">
-                <h2>I am...</h2>
+                <image src="/static/bike.svg"></image>
                 <div id="IAmForm">
-                    <button id="need_bike" class="button"><span>Looking for a Bike</span></button>
+                    <button id="need_bike" class="button"><span>Need a Bike</span></button>
                     <button id="return_bike" class="button"><span>Returning a Bike</span></button>
                     <button id="plan_trip" class="button"><span>Planning a Trip</span></button>
+                    <br>
                     <button id="list_stations" class="button" onclick="openNav()"><span>Stations List</span></button>
                     <button id="get_weather" class="button"><span>Weather Info</span></button>
+
+                    <div id="weather_info">
+                        <a href="javascript:void(0)" class="closebtn" onclick="hideWeather()" style="position: sticky; float: left;">
+                            <image src="/static/small_cross.svg"></image></a><br>
+                            <image src="/static/cloud.svg"></image>
+                            <h2>Weather Information</h2>
+                    </div>
+                    <div id="more_station_info">
+                        <a href="javascript:void(0)" class="closebtn" onclick="hideInfo()" style="position: sticky; float: left;">
+                            <image src="/static/small_cross.svg"></image>
+                        </a><br>
+                        <span>More Station Info</span><br>
+                    </div>
 
                 </div>
                 <div id="userTripForm"></div>
@@ -46,20 +60,29 @@
             <div id="stationInfo">
             </div>
         </div>
-        <div id="weather_info"><span>Weather Information</span></div>
 
         <div id="stationsSidepanel" class="sidepanel">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
-                style="position: sticky; float: right; padding-top: 10px;">x</a>
-            <h2 style="color:#fff; padding-left: 32px;">All Stations</h2>
+                style="position: sticky; float: right; padding-top: 10px;"><image src="/static/cross.svg"></image></a>
+            <h2 style="color:#534EA9; padding-left: 32px;">All Stations</h2>
         </div>
 
         <!--Map container-->
         <div id="map"></div>
         <script async defer>
             function moreInfo(id) {
-                document.getElementById("stationInfo").innerHTML = "returning info for Station No: " + id;
+                document.getElementById("more_station_info").style.display = 'block';
+                document.getElementById("more_station_info").innerHTML += "returning info for Station No: " + id;
                 closeNav();
+            }
+            function hideInfo() {
+                document.getElementById("more_station_info").style.display = 'none';
+            }
+            function hideWeather() {
+                document.getElementById("weather_info").style.display = 'none';
+            }
+            function getAvailability(){
+                moreInfo(23);
             }
             function openNav() {
                 document.getElementById("stationsSidepanel").style.width = "250px";
