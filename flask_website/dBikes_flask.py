@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from bike_station_data.DBConnector import DBConnector as BikesData
 from weather_connection.DBConnector import DBConnector as WeatherData
+from prediction import Prediction
 
 
 app = Flask(__name__)
