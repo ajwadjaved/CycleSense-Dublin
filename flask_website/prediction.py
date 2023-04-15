@@ -3,6 +3,7 @@ import pickle
 import time
 from datetime import datetime
 from datetime import timedelta
+
 import requests
 
 import pandas
@@ -22,8 +23,11 @@ class Prediction:
             model = pickle.load(file)
 
         # print(feature_df)
-        pred = model.predict(feature_df)
-        return pred
+        pred_array = model.predict(feature_df)
+        pred_df = pandas.DataFrame(pred_array, columns=['available_bikes', 'available_bike_stands'])
+        hour_column = feature_df['timehours_weather']
+        pred_df.insert(loc=0, column="hour", value=hour_column)
+        return pred_df.to_json(orient='records', indent=4)
 
     @staticmethod
     def weather_forecast(requested_date: datetime.date):
@@ -83,4 +87,4 @@ def prediction_test():
 
 
 # forecast_test()
-# prediction_test()
+prediction_test()

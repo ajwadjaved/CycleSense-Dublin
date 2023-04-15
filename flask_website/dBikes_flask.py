@@ -35,7 +35,7 @@ def get_predictions(station_id, date):
     # date expected format: 2023-02-28
     date = datetime.strptime(str(date), '%Y-%m-%d')
     pred = Prediction()
-    # the returned type is a pandas.dataframe for now
+    # the returned type is a json - array of objects, each array element is the prediction for that hour
     return pred.make_prediction(station_id, date)
 
 
