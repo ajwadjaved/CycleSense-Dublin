@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dublin Bikes 19</title>
+    <title>The Bikes</title>
     <!-- link to stylesheet in static/css folder -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="icon" type="image/svg" href="/static/bike.svg">
@@ -35,12 +35,8 @@
 
             <!-- If user is planning trip: prompt for more info-->
             <div id="userChoice"></div>
-            <div id="tripPlanner" class="hide">
-                <br>
-                <form>
-                    <label for="dayOfTrip"><strong>Day of Trip: </strong></label>
-                    <input type="date" id="dayOfTrip" name="tripDay">
-                </form>
+            <div id="tripPlanner">
+
             </div>
             <br>
             <!--Map header changes depending on what the user is looking for-->
@@ -56,16 +52,34 @@
 
         <!-- panel for weather information - shown if desired -->
         <div id="weather_info">
-            <a href="javascript:void(0)" class="closebtn" onclick="hideWeather()" style="position: sticky; float: left;">
-                <image src="/static/small_cross.svg"></image></a><br>
-            <image src="/static/cloud.svg"></image>
-            <h2>Weather Information</h2>
+            <a href="javascript:void(0)" class="closebtn" onclick="hideDiv('weather_info')" style="position: sticky; float: left;">
+                <image src="/static/small_cross.svg"></image></a>
+            <image src="/static/cloud.svg" style="float: right;"></image>
+            <br>
+            <h2>Current Weather</h2>
             <p id="weather_data"></p>
+        </div>
+
+        <!-- panel for trip information - shown if desired -->
+        <div id="trip_info">
+            <a href="javascript:void(0)" class="closebtn" onclick="hideDiv('trip_info')" style="position: sticky, float: left;">
+                <image src="/static/small_cross.svg"></image></a>
+            <image src="/static/path.svg" style="float: right;"></image>
+            <h2>About your Trip</h2>
+            <form>
+                <label for="dayOfTrip"><strong>Day of Trip: </strong></label>
+                <input type="date" id="dayOfTrip" name="tripDay">
+            </form>
+            <button id="date_chosen">Choose Start and End Locations</button>
+            <p id="trip_day"></p>
+            <p id="trip_start"></p>
+            <p id="trip_end"></p>
+            <p id="trip_data"></p>
         </div>
 
         <!-- panel for more info on a particular station - shown if desired -->
         <div id="more_station_info">
-            <a href="javascript:void(0)" class="closebtn" onclick="hideInfo()" style="position: sticky; float: left;">
+            <a href="javascript:void(0)" class="closebtn" onclick="hideDiv('more_station_info')" style="position: sticky; float: left;">
                 <image src="/static/small_cross.svg"></image>
             </a><br>
             <h3>More Station Info</h3>
@@ -79,17 +93,13 @@
         <script async defer>
             function moreInfo(id) {
                 document.getElementById("more_station_info").style.display = 'block';
+                //var info = getAvailability(id);
+                //document.getElementById("station_data").innerHTML = info;
                 document.getElementById("station_data").innerHTML = "variable: returning info for Station No: " + id;
                 closeNav();
             }
-            function hideInfo() {
-                document.getElementById("more_station_info").style.display = 'none';
-            }
-            function hideWeather() {
-                document.getElementById("weather_info").style.display = 'none';
-            }
-            function getAvailability(){
-                moreInfo(23);
+            function hideDiv(id){
+                document.getElementById(id).style.display = 'none';
             }
             function openNav() {
                 document.getElementById("stationsSidepanel").style.width = "250px";

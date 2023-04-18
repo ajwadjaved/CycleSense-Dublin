@@ -16,8 +16,8 @@ def home():
 def stations():
     # returns static data of all stations
     connector = BikesData()
-    stations = connector.all_static_stations()
-    return stations
+    all_stations = connector.all_static_stations()
+    return all_stations
 
 
 @app.route("/availability/<int:station_id>")

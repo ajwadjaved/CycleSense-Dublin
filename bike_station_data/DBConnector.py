@@ -1,5 +1,4 @@
-from flask_website.bike_station_data import credentials
-from flask_website.bike_station_data import dbinfo
+from bike_station_data import credentials, dbinfo
 from sqlalchemy import create_engine, text
 import datetime
 import json

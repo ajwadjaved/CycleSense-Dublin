@@ -1,11 +1,9 @@
 # to enable importing (dbinfo & credentials) from the parent folder (dublinbikesproject)
 import json
 import sys
-
-sys.path.append('..')
-from flask_website.weather_connection import credentials
-from flask_website.weather_connection import dbinfo
+from weather_connection import dbinfo, credentials
 from sqlalchemy import create_engine, text
+sys.path.append('..')
 
 
 class DBConnector:
@@ -98,7 +96,6 @@ class DBConnector:
     def process_str(string):
         # 2 single quotes: first single quote escapes the second in a sql insert query
         return string.replace("'", "''")
-
 
 # def test():
 #     connector = DBConnector()

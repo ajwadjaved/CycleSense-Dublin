@@ -88,10 +88,6 @@ a:hover {
     border: #534EA9 2px solid;
 }
 
-image {
-    z-index: -1;
-}
-
 #IAmForm button {
     display: inline-block;
     border-radius: 4px;
@@ -134,10 +130,10 @@ image {
 
 .markerButton {
     display: block;
-    border-radius: 2px;
-    background-color: #534EA9;
-    border: none;
-    color: white;
+    border-radius: 4px;
+    background-color: white;
+    border: #534EA9 2px solid;
+    color: #534EA9;
     font-size: 15px;
     padding: 10px;
     width: 150px;
@@ -148,7 +144,7 @@ image {
 }
 
 .markerButton:hover {
-    background-color: #98A9CA;
+    cursor: pointer;
 }
 
 #floating_panel {
@@ -176,7 +172,7 @@ image {
     position: absolute;
     z-index: 4;
     top: 10em;
-    left: 8em;
+    left: 10em;
 }
 
 #more_station_info {
@@ -190,7 +186,21 @@ image {
     position: absolute;
     z-index: 5;
     top: 25em;
-    left: 8em;
+    left: 5em;
+}
+
+#trip_info {
+    display: none;
+    border-radius: 4px;
+    background-color: white;
+    border: #534EA9 2px solid;
+    color: #534EA9;
+    padding: 20px;
+    float: right;
+    position: absolute;
+    z-index: 6;
+    top: 25em;
+    left: 30em;
 }
 
 input[type='date'] {

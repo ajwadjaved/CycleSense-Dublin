@@ -6,6 +6,6 @@ weatherapi.py
 **/*[Tt]est*
 .idea/
 **/.DS_Store
-flask_website/templates/map.html
+templates/map.html
 **/__pycache__/
 **/*.log
