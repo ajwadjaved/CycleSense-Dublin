@@ -45,7 +45,6 @@ function addMarkers(stations){
     var infoWindow = new google.maps.InfoWindow();
     var image = "/static/purple_marker.svg";
 
-
     //loop through data array of locations and create a marker at each one
     for (var i=0; i<stations.length; i++) {
         var marker = new google.maps.Marker({
@@ -56,8 +55,8 @@ function addMarkers(stations){
             icon: image,
         });
         markers.push(marker);
-//        var availability = getAvailability(stations[i].NUMBER);
-//        console.log(availability);
+        var availability = getAvailability(stations[i].NUMBER);
+        console.log(availability);
         // add marker popup to each
         google.maps.event.addListener(marker, 'click', (function(marker) {
             var content = 'Name: '+stations[i].address+'<br>Number: '+stations[i].NUMBER;

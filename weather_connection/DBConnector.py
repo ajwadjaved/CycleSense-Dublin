@@ -1,7 +1,7 @@
 # to enable importing (dbinfo & credentials) from the parent folder (dublinbikesproject)
 import json
 import sys
-from weather_connection import dbinfo, credentials
+import dbinfo, credentials
 from sqlalchemy import create_engine, text
 sys.path.append('..')
 

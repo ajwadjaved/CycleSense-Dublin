@@ -92,11 +92,23 @@
         <!-- functions called from objects created through index.js file -->
         <script async defer>
             function moreInfo(id) {
-                document.getElementById("more_station_info").style.display = 'block';
-                //var info = getAvailability(id);
-                //document.getElementById("station_data").innerHTML = info;
-                document.getElementById("station_data").innerHTML = "variable: returning info for Station No: " + id;
                 closeNav();
+                document.getElementById("more_station_info").style.display = 'block';
+                var info = getAvailability(id);
+                document.getElementById("station_data").innerHTML = info;
+                //document.getElementById("station_data").innerHTML = "variable: returning info for Station No: " + id;
+            }
+            // get availability for given station
+            function getAvailability(station_number){
+                //for (var i=0; i<markers.length; i++){
+                    //if (markers[i].NUMBER == station_number){
+                        //var marker = markers[i]
+                            fetch('/availability/'+station_number)
+                            .then((response) => response.json())
+                            .then((data) => {console.log(data); return data;})
+                            console.log("this availability: ",data);
+                    //}
+                //}
             }
             function hideDiv(id){
                 document.getElementById(id).style.display = 'none';
@@ -107,7 +119,6 @@
             function closeNav() {
                 document.getElementById("stationsSidepanel").style.width = "0";
             }
-
         </script>
     </div>
 
