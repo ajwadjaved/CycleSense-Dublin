@@ -225,8 +225,10 @@ function showTrip(){
         document.getElementById('trip_day').innerHTML = day;
         var s = document.getElementById("startLocation").value;
         var e = document.getElementById("endLocation").value;
+        //var image = "/static/chartSample.png";
         document.getElementById("trip_start").innerHTML = s;
         document.getElementById("trip_end").innerHTML = e;
+        document.getElementById("trip_data").innerHTML = "<image src='/static/chartSample.png' style='width: 250px;'>";
      }
 
 //    use predictive model to display availability chances and weather forcast for chosen day as graphs
