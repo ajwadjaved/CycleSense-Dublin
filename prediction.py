@@ -50,6 +50,7 @@ class Prediction:
         #     json.dump(weather_forecast_dict, outfile, indent=4, default=str)
 
         # return only relevant info
+        requested_date = requested_date.date()
         output = list()
         for forecast in weather_forecast_dict["list"]:
             forecast_time = forecast["dublin_time"]
