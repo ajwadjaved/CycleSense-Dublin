@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Bikes</title>
+    <title>19 Bikes</title>
     <!-- link to stylesheet in static/css folder -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="icon" type="image/svg" href="/static/bike.svg">
@@ -68,9 +68,13 @@
             <h2>About your Trip</h2>
             <form>
                 <label for="dayOfTrip"><strong>Day of Trip: </strong></label>
-                <input type="date" id="dayOfTrip" name="tripDay">
+                <input type="date" id="dayOfTrip" name="tripDay"><br><br>
+                <label for="startLocation"><strong>Start: </strong></label>
+                <input type="text" id="startLocation" name="startLocation" placeholder="start location..." style="float: right;"><br><br>
+                <label for="endLocation"><strong>End: </strong></label>
+                <input type="text" id="endLocation" name="endLocation" placeholder="end location..." style="float: right;"><br><br>
             </form>
-            <button id="date_chosen">Choose Start and End Locations</button>
+            <button id="date_chosen"><strong>Get Trip Info</strong></button>
             <p id="trip_day"></p>
             <p id="trip_start"></p>
             <p id="trip_end"></p>

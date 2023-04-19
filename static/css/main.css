@@ -186,7 +186,7 @@ a:hover {
     position: absolute;
     z-index: 5;
     top: 25em;
-    left: 5em;
+    left: 10em;
 }
 
 #trip_info {
@@ -199,12 +199,31 @@ a:hover {
     float: right;
     position: absolute;
     z-index: 6;
-    top: 25em;
+    top: 15em;
     left: 30em;
+    min-width: 250px;
+}
+#trip_info button{
+    display: block;
+    border-radius: 4px;
+    background-color: white;
+    border: #534EA9 2px solid;
+    color: #534EA9;
+    font-size: 15px;
+    padding: 10px;
+    width: 150px;
+    transition: all 0.2s;
+    cursor: pointer;
 }
 
 input[type='date'] {
     color: #98A9CA;
+    padding: 5px;
+    border-radius: 4px;
+    border: #98A9CA 2px solid;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+input[type='text'] {
     padding: 5px;
     border-radius: 4px;
     border: #98A9CA 2px solid;

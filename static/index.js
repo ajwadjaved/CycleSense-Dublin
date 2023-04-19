@@ -76,17 +76,25 @@ function initMap() {
     zoom: 13.6, center: dublin,});
     console.log("initMap function called");
 //    test marker when not connected to server-------
-//    var image = "/static/purple_marker.svg";
-//
-//    var m = new google.maps.Marker({
-//        map,
-//        position: dublin,
-//        icon: image,
-//    });
-//    markers.push(m);
+    var image = "/static/purple_marker.svg";
+
+    var m = new google.maps.Marker({
+        map,
+        position: dublin,
+        icon: image,
+    });
+    markers.push(m);
+    var infoWindow = new google.maps.InfoWindow();
+    google.maps.event.addListener(m, 'click', (function(m){
+        var content = 'sample marker content<hr><strong>...</strong>';
+        return function(){
+            infoWindow.setContent(content);
+            infoWindow.open(map, m);
+        }
+    })(m, 0));
 
     // fill map with station markers through getStations when loading map
-    getStations();
+//    getStations();
 }
 
 // return closest marker from array - from https://stackoverflow.com/questions/45537011/google-map-api-get-closest-place-to-me-in-my-address
@@ -166,6 +174,7 @@ function showMarkers(){
     setMapOnAll(map);
     directionRenderer.setMap(null);
 }
+
 // return path from location to location - walking only
 function directions(start, end){
 //    hideMarkers();
@@ -189,55 +198,60 @@ document.getElementById("need_bike").onclick = function() {needBike(); returnUse
 document.getElementById("return_bike").onclick = function() {returnBike(); returnUserLocation();}
 document.getElementById("plan_trip").onclick = function() {showTrip()}
 document.getElementById("list_stations").onclick = function() {listStations(); openNav();}
-document.getElementById("get_weather").onclick = function() {getWeather();}
+//document.getElementById("get_weather").onclick = function() {getWeather();}
+document.getElementById("get_weather").onclick = function() {showWeather();}
 
 //functions for user input choice - need, return and plan
 function needBike(){
-    document.getElementById('mapHeader').style.display = 'block';
     document.getElementById('mapHeader').innerHTML='Finding your closest Bike...';
 }
 function returnBike(){
-    document.getElementById('mapHeader').style.display = 'block';
     document.getElementById('mapHeader').innerHTML='Finding your closest Station...';
     returnUserLocation();
 }
 // show div containing information for trip planned by user - best stations and weather forcast
 function showTrip(){
-    document.getElementById('mapHeader').style.display = 'none';
+    document.getElementById('mapHeader').innerHTML = 'Plan your trip...';
     document.getElementById('trip_info').style.display = 'block';
     dragElement(document.getElementById('trip_info'));
     var content = '';
     document.getElementById('trip_data').innerHTML += content;
-    document.getElementById('date_chosen').onclick = function() {getDate()};
-    function getDate(){
+    document.getElementById('date_chosen').onclick = function() {getTripInfo()};
+    function getTripInfo(){
+    // --> TODO: get location finder API from google to read user input location as latLng for station finder <--
+    // --> TODO: get information entered by user in form. Pass to directions() function to show path on map <--
         var d = document.getElementById("dayOfTrip").value;
         var day = d;
         document.getElementById('trip_day').innerHTML = day;
+        var s = document.getElementById("startLocation").value;
+        var e = document.getElementById("endLocation").value;
+        document.getElementById("trip_start").innerHTML = s;
+        document.getElementById("trip_end").innerHTML = e;
      }
 
 //    use predictive model to display availability chances and weather forcast for chosen day as graphs
-    document.getElementById('trip_data').innerHTML = "variable to show:<br><ul><li>start station bike availability over hours of day</li><li>end station space available over hours of day</li><li>weather forcast</li></ul>";
+//    document.getElementById('trip_data').innerHTML = "variable to show:<br><ul><li>start station bike availability over hours of day</li><li>end station space available over hours of day</li><li>weather forcast</li></ul>";
 
 }
 
 // list stations from json into side panel - each calls getAvailability(station_number) onclick
 function listStations(){
     for (var i=0; i<114; i++){
-//        var content = '<a href=# onclick="moreInfo(13)">Sample Station</a>'
-        var content = '<a href="javascript:void(0)" onclick="moreInfo('+stations[i].NUMBER+')">'+stations[i].address+'</a>';
+        var content = '<a href=# onclick="moreInfo(13)">Sample Station</a>'
+//        var content = '<a href="javascript:void(0)" onclick="moreInfo('+stations[i].NUMBER+')">'+stations[i].address+'</a>';
         document.getElementById('stationsSidepanel').innerHTML+=content;
     }
 }
 
 // show current weather info - called from getWeather() fetch response
-function showWeather(data){
+function showWeather(){
     document.getElementById('weather_info').style.display = 'block';
-//    var content = "variable: showing todays' weather";
-    var weather = data.weather;
-    var temp = data.temp;
-    var time = data.time;
-    document.getElementById('weather_data').innerHTML = "Weather: "+weather+" | Temp: "+temp+"℃ | Time: "+time;
-//    document.getElementById('weather_data').innerHTML = content;
+    var content = "variable: showing todays' weather";
+//    var weather = data.weather;
+//    var temp = data.temp;
+//    var time = data.time;
+//    document.getElementById('weather_data').innerHTML = "Weather: "+weather+" | Temp: "+temp+"℃ | Time: "+time;
+    document.getElementById('weather_data').innerHTML = content;
     dragElement(document.getElementById('weather_info'));
 }
 
