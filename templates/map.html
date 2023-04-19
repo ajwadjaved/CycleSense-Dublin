@@ -97,22 +97,26 @@
         <script async defer>
             function moreInfo(id) {
                 closeNav();
-                document.getElementById("more_station_info").style.display = 'block';
-                var info = getAvailability(id);
-                document.getElementById("station_data").innerHTML = info;
-                //document.getElementById("station_data").innerHTML = "variable: returning info for Station No: " + id;
+                getAvailability(id);
             }
             // get availability for given station
             function getAvailability(station_number){
-                //for (var i=0; i<markers.length; i++){
-                    //if (markers[i].NUMBER == station_number){
-                        //var marker = markers[i]
-                            fetch('/availability/'+station_number)
-                            .then((response) => response.json())
-                            .then((data) => {console.log(data); return data;})
-                            console.log("this availability: ",data);
-                    //}
-                //}
+                fetch('/availability/'+station_number)
+                .then((response) => response.json())
+                .then((data) => {console.log(data); return data;})
+                .then((data) => {showInfo(data);});
+            }
+            function showInfo(data){
+                document.getElementById("more_station_info").style.display = 'block';
+                var content = '';
+                if (data.open == 1) {
+                    open = 'yes';
+                    var last_update = data.last_update;
+                    var stands = data.bike_stands;
+                    var bikes = data.available_bikes;
+                    content = "Available Bikes: "+bikes+" Available Stands: "+stands+" Updated at: "+last_update;
+                } else { content = "Bike Station is Closed.";}
+                document.getElementById("station_data").innerHTML = content;
             }
             function hideDiv(id){
                 document.getElementById(id).style.display = 'none';

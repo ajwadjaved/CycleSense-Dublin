@@ -76,25 +76,25 @@ function initMap() {
     zoom: 13.6, center: dublin,});
     console.log("initMap function called");
 //    test marker when not connected to server-------
-    var image = "/static/purple_marker.svg";
-
-    var m = new google.maps.Marker({
-        map,
-        position: dublin,
-        icon: image,
-    });
-    markers.push(m);
-    var infoWindow = new google.maps.InfoWindow();
-    google.maps.event.addListener(m, 'click', (function(m){
-        var content = 'sample marker content<hr><strong>...</strong>';
-        return function(){
-            infoWindow.setContent(content);
-            infoWindow.open(map, m);
-        }
-    })(m, 0));
+//    var image = "/static/purple_marker.svg";
+//
+//    var m = new google.maps.Marker({
+//        map,
+//        position: dublin,
+//        icon: image,
+//    });
+//    markers.push(m);
+//    var infoWindow = new google.maps.InfoWindow();
+//    google.maps.event.addListener(m, 'click', (function(m){
+//        var content = 'sample marker content<hr><strong>...</strong>';
+//        return function(){
+//            infoWindow.setContent(content);
+//            infoWindow.open(map, m);
+//        }
+//    })(m, 0));
 
     // fill map with station markers through getStations when loading map
-//    getStations();
+    getStations();
 }
 
 // return closest marker from array - from https://stackoverflow.com/questions/45537011/google-map-api-get-closest-place-to-me-in-my-address
@@ -198,8 +198,8 @@ document.getElementById("need_bike").onclick = function() {needBike(); returnUse
 document.getElementById("return_bike").onclick = function() {returnBike(); returnUserLocation();}
 document.getElementById("plan_trip").onclick = function() {showTrip()}
 document.getElementById("list_stations").onclick = function() {listStations(); openNav();}
-//document.getElementById("get_weather").onclick = function() {getWeather();}
-document.getElementById("get_weather").onclick = function() {showWeather();}
+document.getElementById("get_weather").onclick = function() {getWeather();}
+//document.getElementById("get_weather").onclick = function() {showWeather();}
 
 //functions for user input choice - need, return and plan
 function needBike(){
@@ -218,6 +218,7 @@ function showTrip(){
     document.getElementById('trip_data').innerHTML += content;
     document.getElementById('date_chosen').onclick = function() {getTripInfo()};
     function getTripInfo(){
+    // --> TODO: can't type in user input text form for some reason <--
     // --> TODO: get location finder API from google to read user input location as latLng for station finder <--
     // --> TODO: get information entered by user in form. Pass to directions() function to show path on map <--
         var d = document.getElementById("dayOfTrip").value;
@@ -225,7 +226,6 @@ function showTrip(){
         document.getElementById('trip_day').innerHTML = day;
         var s = document.getElementById("startLocation").value;
         var e = document.getElementById("endLocation").value;
-        //var image = "/static/chartSample.png";
         document.getElementById("trip_start").innerHTML = s;
         document.getElementById("trip_end").innerHTML = e;
         document.getElementById("trip_data").innerHTML = "<image src='/static/chartSample.png' style='width: 250px;'>";
@@ -239,21 +239,21 @@ function showTrip(){
 // list stations from json into side panel - each calls getAvailability(station_number) onclick
 function listStations(){
     for (var i=0; i<114; i++){
-        var content = '<a href=# onclick="moreInfo(13)">Sample Station</a>'
-//        var content = '<a href="javascript:void(0)" onclick="moreInfo('+stations[i].NUMBER+')">'+stations[i].address+'</a>';
+//        var content = '<a href=# onclick="moreInfo(13)">Sample Station</a>'
+        var content = '<a href="javascript:void(0)" onclick="moreInfo('+stations[i].NUMBER+')">'+stations[i].address+'</a>';
         document.getElementById('stationsSidepanel').innerHTML+=content;
     }
 }
 
 // show current weather info - called from getWeather() fetch response
-function showWeather(){
+function showWeather(data){
     document.getElementById('weather_info').style.display = 'block';
-    var content = "variable: showing todays' weather";
-//    var weather = data.weather;
-//    var temp = data.temp;
-//    var time = data.time;
-//    document.getElementById('weather_data').innerHTML = "Weather: "+weather+" | Temp: "+temp+"℃ | Time: "+time;
-    document.getElementById('weather_data').innerHTML = content;
+//    var content = "variable: showing todays' weather";
+    var weather = data.weather;
+    var temp = data.temp;
+    var time = data.time;
+    document.getElementById('weather_data').innerHTML = "Weather: "+weather+" | Temp: "+temp+"℃ | Time: "+time;
+//    document.getElementById('weather_data').innerHTML = content;
     dragElement(document.getElementById('weather_info'));
 }
 
