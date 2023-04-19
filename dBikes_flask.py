@@ -28,6 +28,7 @@ def availability(station_id):
     station_info = connector.most_recent(station_id)
     return station_info
 
+
 @app.route("/prediction/<int:station_id>/<date>")
 def get_predictions(station_id, date):
     # convert date to string type, then to datetime.date type

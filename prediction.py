@@ -8,8 +8,8 @@ import requests
 
 import pandas
 
-# run this .py from /flast_website
-import credentials
+# run this .py from dublinbikesproject
+from bike_station_data import credentials
 
 
 class Prediction:
@@ -87,4 +87,4 @@ def prediction_test():
 
 
 # forecast_test()
-prediction_test()
+# prediction_test()
