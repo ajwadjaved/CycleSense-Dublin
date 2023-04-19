@@ -1,0 +1,66 @@
+[
+    {
+        "hour": 2,
+        "temperature": 279.08,
+        "humidity": 85,
+        "wind_speed": 3.08,
+        "wind_degrees": 267,
+        "weather_id": 800
+    },
+    {
+        "hour": 5,
+        "temperature": 275.82,
+        "humidity": 96,
+        "wind_speed": 3.13,
+        "wind_degrees": 255,
+        "weather_id": 801
+    },
+    {
+        "hour": 8,
+        "temperature": 275.68,
+        "humidity": 96,
+        "wind_speed": 2.78,
+        "wind_degrees": 254,
+        "weather_id": 802
+    },
+    {
+        "hour": 11,
+        "temperature": 281.88,
+        "humidity": 77,
+        "wind_speed": 0.85,
+        "wind_degrees": 281,
+        "weather_id": 800
+    },
+    {
+        "hour": 14,
+        "temperature": 284.9,
+        "humidity": 60,
+        "wind_speed": 2.7,
+        "wind_degrees": 127,
+        "weather_id": 801
+    },
+    {
+        "hour": 17,
+        "temperature": 284.98,
+        "humidity": 61,
+        "wind_speed": 4.27,
+        "wind_degrees": 153,
+        "weather_id": 804
+    },
+    {
+        "hour": 20,
+        "temperature": 282.85,
+        "humidity": 77,
+        "wind_speed": 3.35,
+        "wind_degrees": 171,
+        "weather_id": 804
+    },
+    {
+        "hour": 23,
+        "temperature": 281.27,
+        "humidity": 80,
+        "wind_speed": 4.03,
+        "wind_degrees": 159,
+        "weather_id": 500
+    }
+]
