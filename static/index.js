@@ -353,7 +353,7 @@ function drawPredictionChart(prediction) {
     var data = google.visualization.arrayToDataTable(arrayContainer);
     var options = {
         title: 'Sample chart',
-        colors: ['#AEC0E3', gray],
+        colors: ['#AEC0E3'],
         opacity: 0.2,
     };
 
