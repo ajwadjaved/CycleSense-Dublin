@@ -269,8 +269,7 @@ async function getTripInfo() {
     await fetch('prediction/117/' + day) // Replace '117' with actual station numbers
         .then(response => response.json())
         .then(data => {
-            console.log("ran");
-            drawChart(data)
+            drawPredictionChart(data)
         })
         .catch(error => {
             console.error('Error:', error);
@@ -347,7 +346,7 @@ navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
 const id = navigator.geolocation.watchPosition(successCallback, errorCallback);
 console.log("id", id);
 
-function drawChart(prediction) {
+function drawPredictionChart(prediction) {
     // convert prediction from array of objects to array of array
     var arrayContainer = [];
     // add the headers to array
