@@ -116,7 +116,6 @@ function find_closest_marker(position) {
     var closest = -1;
     for (var i = 0; i < markers.length; i++) {
         if (markers[i]) {
-            console.log(markers[i]);
             var mlat = markers[i].position.lat();
             var mlng = markers[i].position.lng();
             var dLat = rad(mlat - lat);
@@ -131,15 +130,14 @@ function find_closest_marker(position) {
 
             }
         }
-    }
-    ;
-    console.log("closest marker: ", markers[closest].position[0]);
+    };
+
     return (markers[closest].position);
 }
 
 // center map on user location when looking for or returning a bike -- using sample location due to https requirement for geolocation --
-function returnUserLocation() {
-    var UserLocation = {lat: 53.331072, lng: -6.290449,};
+function returnUserLocation(){
+    var UserLocation = {lat:53.3044737, lng:-6.2197716,};
     var closestMarker = find_closest_marker(UserLocation);
     directions(UserLocation, closestMarker);
     // Try HTML5 geolocation
@@ -336,16 +334,16 @@ function dragElement(elmnt) {
     }
 }
 
-const successCallback = (position) => {
-    console.log(position);
-};
-
-const errorCallback = (error) => {
-    console.log(error);
-};
-navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-const id = navigator.geolocation.watchPosition(successCallback, errorCallback);
-console.log("id", id);
+// live tracking of user location ---- not used on server ----
+//const successCallback = (position) => {
+//  console.log(position);
+//};
+//
+//const errorCallback = (error) => {
+//  console.log(error);
+//};
+//navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+//const id = navigator.geolocation.watchPosition(successCallback, errorCallback);
 
 function drawChart(prediction) {
     // convert prediction from array of objects to array of array
@@ -354,9 +352,10 @@ function drawChart(prediction) {
     arrayContainer.push(['hour', 'available_bikes', 'available_bike_stands'])
     prediction.forEach(hourOfPred => arrayContainer.push([hourOfPred.hour.toString(), hourOfPred.available_bikes, hourOfPred.available_bike_stands]));
     var data = google.visualization.arrayToDataTable(arrayContainer);
-
     var options = {
-        title: 'Sample chart'
+        title: 'Sample chart',
+        colors: ['#AEC0E3', gray],
+        opacity: 0.2,
     };
 
     var chart = new google.visualization.BarChart(document.getElementById('myChart'));

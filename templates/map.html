@@ -52,51 +52,49 @@
 		<h2 style="color:#534EA9; padding-left: 32px;">All Stations</h2>
 	</div>
 
-	<!-- panel for weather information - shown if desired -->
-	<div id="weather_info">
-		<a href="javascript:void(0)" class="closebtn" onclick="hideDiv('weather_info')"
-		   style="position: sticky; float: left;">
-			<img src="/static/small_cross.svg"></a>
-		<img src="/static/cloud.svg" style="float: right;">
-		<br>
-		<h2>Current Weather</h2>
-		<p id="weather_data"></p>
-	</div>
+        <!-- panel for weather information - shown if desired -->
+        <div id="weather_info">
+            <div id="weather_infoheader" style="width: 100%">move me!<hr></div>
+            <a href="javascript:void(0)" class="closebtn" onclick="hideDiv('weather_info')" style="position: sticky; float: left;">
+                <img src="/static/small_cross.svg"></a>
+            <img src="/static/cloud.svg" style="float: right;">
+            <br>
+            <h2>Current Weather</h2>
+            <p id="weather_data"></p>
+        </div>
 
-	<!-- panel for trip information - shown if desired -->
-	<div id="trip_info">
-		<a href="javascript:void(0)" class="closebtn" onclick="hideDiv('trip_info')"
-		   style="position: sticky, float: left;">
-			<img src="/static/small_cross.svg"></a>
-		<img src="/static/path.svg" style="float: right;">
-		<h2>About your Trip</h2>
-		<form>
-			<label for="dayOfTrip"><strong>Day of Trip: </strong></label>
-			<input type="date" id="dayOfTrip" name="tripDay"><br><br>
-			<label for="startLocation"><strong>Start: </strong></label>
-			<input type="text" id="startLocation" name="startLocation" placeholder="start location..."
-			       style="float: right;"><br><br>
-			<label for="endLocation"><strong>End: </strong></label>
-			<input type="text" id="endLocation" name="endLocation" placeholder="end location..."
-			       style="float: right;"><br><br>
-		</form>
-		<button id="date_chosen"><strong>Get Trip Info</strong></button>
-		<p id="trip_day"></p>
-		<p id="trip_start"></p>
-		<p id="trip_end"></p>
-		<p id="trip_data"></p>
-		<div id="myChart" style="width: 100%;"></div>
-	</div>
+        <!-- panel for trip information - shown if desired -->
+        <div id="trip_info">
+            <div id="trip_infoheader" style="width: 100%">move me!<hr></div>
+            <a href="javascript:void(0)" class="closebtn" onclick="hideDiv('trip_info')" style="position: sticky, float: left;">
+                <img src="/static/small_cross.svg"></a>
+            <img src="/static/path.svg" style="float: right;">
+            <h2>About your Trip</h2>
+            <form>
+                <label for="dayOfTrip"><strong>Day of Trip: </strong></label>
+                <input type="date" id="dayOfTrip" name="tripDay"><br><br>
+                <label for="startLocation"><strong>Start: </strong></label>
+                <input type="text" id="startLocation" name="startLocation" placeholder="start location..." style="float: right;"><br><br>
+                <label for="endLocation"><strong>End: </strong></label>
+                <input type="text" id="endLocation" name="endLocation" placeholder="end location..." style="float: right;"><br><br>
+            </form>
+            <button id="date_chosen"><strong>Get Trip Info</strong></button>
+            <p id="trip_day"></p>
+            <p id="trip_start"></p>
+            <p id="trip_end"></p>
+            <p id="trip_data"></p>
+            <div id="myChart" style="width: 100%"></div>
+        </div>
 
-	<!-- panel for more info on a particular station - shown if desired -->
-	<div id="more_station_info">
-		<a href="javascript:void(0)" class="closebtn" onclick="hideDiv('more_station_info')"
-		   style="position: sticky; float: left;">
-			<img src="/static/small_cross.svg">
-		</a><br>
-		<h3>More Station Info</h3>
-		<p id="station_data"></p>
-	</div>
+        <!-- panel for more info on a particular station - shown if desired -->
+        <div id="more_station_info">
+            <div id="more_station_infoheader" style="width=100%; background-color: ">move me!<hr></div>
+            <a href="javascript:void(0)" class="closebtn" onclick="hideDiv('more_station_info')" style="position: sticky; float: left;">
+                <img src="/static/small_cross.svg">
+            </a><br>
+            <h3>More Station Info</h3>
+            <p id="station_data"></p>
+        </div>
 
 	<!--Map container-->
 	<div id="map"></div>
