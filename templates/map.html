@@ -2,143 +2,161 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>19 Bikes</title>
-    <!-- link to stylesheet in static/css folder -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <link rel="icon" type="image/svg" href="/static/bike.svg">
-    <!-- import google chart library here -->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>19 Bikes</title>
+	<!-- link to stylesheet in static/css folder -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+	<link rel="icon" type="image/svg" href="/static/bike.svg">
+	<!-- import google chart library here -->
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 
 <body>
 
-    <div class="wrapper">
-        <div id="header">
-            <h3 class="float_right">Group 19: Ajwad | Ian | Judith</h3>
+<div class="wrapper">
+	<div id="header">
+		<h3 class="float_right">Group 19: Ajwad | Ian | Judith</h3>
 
-            <div id="user_input">
-                <!-- "home" image to reload page -->
-                <a href="javascript:void(0)" onclick="location.reload()"><img src="/static/bike.svg"></a>
+		<div id="user_input">
+			<!-- "home" image to reload page -->
+			<a href="javascript:void(0)" onclick="location.reload()"><img src="/static/bike.svg"></a>
 
-                <!-- Form which reads user input. Output changes depending on choice -->
-                <div id="IAmForm">
-                    <button id="need_bike" class="button"><span>Need a Bike</span></button>
-                    <button id="return_bike" class="button"><span>Returning a Bike</span></button>
-                    <button id="plan_trip" class="button"><span>Planning a Trip</span></button>
-                    <button id="list_stations" class="button" onclick="openNav()"><span>Stations List</span></button>
-                    <button id="get_weather" class="button"><span>Weather Info</span></button>
+			<!-- Form which reads user input. Output changes depending on choice -->
+			<div id="IAmForm">
+				<button id="need_bike" class="button"><span>Need a Bike</span></button>
+				<button id="return_bike" class="button"><span>Returning a Bike</span></button>
+				<button id="plan_trip" class="button"><span>Planning a Trip</span></button>
+				<button id="list_stations" class="button" onclick="openNav()"><span>Stations List</span></button>
+				<button id="get_weather" class="button"><span>Weather Info</span></button>
 
-                </div>
-                <div id="userTripForm"></div>
+			</div>
+			<div id="userTripForm"></div>
 
-            </div>
+		</div>
 
-            <!-- If user is planning trip: prompt for more info-->
-            <div id="userChoice"></div>
-            <div id="tripPlanner">
+		<!-- If user is planning trip: prompt for more info-->
+		<div id="userChoice"></div>
+		<div id="tripPlanner">
 
-            </div>
-            <br>
-            <!--Map header changes depending on what the user is looking for-->
-            <h2 id="mapHeader" style="text-align-last: center">All available stations:</h2>
-        </div>
+		</div>
+		<br>
+		<!--Map header changes depending on what the user is looking for-->
+		<h2 id="mapHeader" style="text-align-last: center">All available stations:</h2>
+	</div>
 
-        <!-- panel to show list of stations -->
-        <div id="stationsSidepanel" class="sidepanel">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
-                style="position: sticky; float: right; padding-top: 10px;"><img src="/static/cross.svg"></a>
-            <h2 style="color:#534EA9; padding-left: 32px;">All Stations</h2>
-        </div>
+	<!-- panel to show list of stations -->
+	<div id="stationsSidepanel" class="sidepanel">
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+		   style="position: sticky; float: right; padding-top: 10px;"><img src="/static/cross.svg"></a>
+		<h2 style="color:#534EA9; padding-left: 32px;">All Stations</h2>
+	</div>
 
-        <!-- panel for weather information - shown if desired -->
-        <div id="weather_info">
-            <a href="javascript:void(0)" class="closebtn" onclick="hideDiv('weather_info')" style="position: sticky; float: left;">
-                <img src="/static/small_cross.svg"></a>
-            <img src="/static/cloud.svg" style="float: right;">
-            <br>
-            <h2>Current Weather</h2>
-            <p id="weather_data"></p>
-        </div>
+	<!-- panel for weather information - shown if desired -->
+	<div id="weather_info">
+		<a href="javascript:void(0)" class="closebtn" onclick="hideDiv('weather_info')"
+		   style="position: sticky; float: left;">
+			<img src="/static/small_cross.svg"></a>
+		<img src="/static/cloud.svg" style="float: right;">
+		<br>
+		<h2>Current Weather</h2>
+		<p id="weather_data"></p>
+	</div>
 
-        <!-- panel for trip information - shown if desired -->
-        <div id="trip_info">
-            <a href="javascript:void(0)" class="closebtn" onclick="hideDiv('trip_info')" style="position: sticky, float: left;">
-                <img src="/static/small_cross.svg"></a>
-            <img src="/static/path.svg" style="float: right;">
-            <h2>About your Trip</h2>
-            <form>
-                <label for="dayOfTrip"><strong>Day of Trip: </strong></label>
-                <input type="date" id="dayOfTrip" name="tripDay"><br><br>
-                <label for="startLocation"><strong>Start: </strong></label>
-                <input type="text" id="startLocation" name="startLocation" placeholder="start location..." style="float: right;"><br><br>
-                <label for="endLocation"><strong>End: </strong></label>
-                <input type="text" id="endLocation" name="endLocation" placeholder="end location..." style="float: right;"><br><br>
-            </form>
-            <button id="date_chosen"><strong>Get Trip Info</strong></button>
-            <p id="trip_day"></p>
-            <p id="trip_start"></p>
-            <p id="trip_end"></p>
-            <p id="trip_data"></p>
-        </div>
+	<!-- panel for trip information - shown if desired -->
+	<div id="trip_info">
+		<a href="javascript:void(0)" class="closebtn" onclick="hideDiv('trip_info')"
+		   style="position: sticky, float: left;">
+			<img src="/static/small_cross.svg"></a>
+		<img src="/static/path.svg" style="float: right;">
+		<h2>About your Trip</h2>
+		<form>
+			<label for="dayOfTrip"><strong>Day of Trip: </strong></label>
+			<input type="date" id="dayOfTrip" name="tripDay"><br><br>
+			<label for="startLocation"><strong>Start: </strong></label>
+			<input type="text" id="startLocation" name="startLocation" placeholder="start location..."
+			       style="float: right;"><br><br>
+			<label for="endLocation"><strong>End: </strong></label>
+			<input type="text" id="endLocation" name="endLocation" placeholder="end location..."
+			       style="float: right;"><br><br>
+		</form>
+		<button id="date_chosen"><strong>Get Trip Info</strong></button>
+		<p id="trip_day"></p>
+		<p id="trip_start"></p>
+		<p id="trip_end"></p>
+		<p id="trip_data"></p>
+		<div id="myChart" style="width: 100%;"></div>
+	</div>
 
-        <!-- panel for more info on a particular station - shown if desired -->
-        <div id="more_station_info">
-            <a href="javascript:void(0)" class="closebtn" onclick="hideDiv('more_station_info')" style="position: sticky; float: left;">
-                <img src="/static/small_cross.svg">
-            </a><br>
-            <h3>More Station Info</h3>
-            <p id="station_data"></p>
-        </div>
+	<!-- panel for more info on a particular station - shown if desired -->
+	<div id="more_station_info">
+		<a href="javascript:void(0)" class="closebtn" onclick="hideDiv('more_station_info')"
+		   style="position: sticky; float: left;">
+			<img src="/static/small_cross.svg">
+		</a><br>
+		<h3>More Station Info</h3>
+		<p id="station_data"></p>
+	</div>
 
-        <!--Map container-->
-        <div id="map"></div>
-        <div id="myChart" style="width: 100%; max-width: 600px; height:400ppx;"></div>
+	<!--Map container-->
+	<div id="map"></div>
 
 
-        <!-- functions called from objects created through index.js file - can't access external js functions -->
-        <script async defer>
-            function moreInfo(id) {
-                closeNav();
-                getAvailability(id);
-            }
-            // get availability for given station
-            function getAvailability(station_number){
-                fetch('/availability/'+station_number)
+	<!-- functions called from objects created through index.js file - can't access external js functions -->
+	<script async defer>
+        function moreInfo(id) {
+            closeNav();
+            getAvailability(id);
+        }
+
+        // get availability for given station
+        function getAvailability(station_number) {
+            fetch('/availability/' + station_number)
                 .then((response) => response.json())
-                .then((data) => {console.log(data); return data;})
-                .then((data) => {showInfo(data);});
-            }
-            function showInfo(data){
-                document.getElementById("more_station_info").style.display = 'block';
-                var content = '';
-                if (data.open == 1) {
-                    open = 'yes';
-                    var last_update = data.last_update;
-                    var stands = data.bike_stands;
-                    var bikes = data.available_bikes;
-                    content = "<strong>Available Bikes:</strong> "+bikes+"<br><strong>Available Stands:</strong> "+stands+"<br><strong>Updated at:</strong> "+last_update;
-                } else { content = "Bike Station is Closed.";}
-                document.getElementById("station_data").innerHTML = content;
-            }
-            function hideDiv(id){
-                document.getElementById(id).style.display = 'none';
-            }
-            function openNav() {
-                document.getElementById("stationsSidepanel").style.width = "250px";
-            }
-            function closeNav() {
-                document.getElementById("stationsSidepanel").style.width = "0";
-            }
-        </script>
-    </div>
+                .then((data) => {
+                    console.log(data);
+                    return data;
+                })
+                .then((data) => {
+                    showInfo(data);
+                });
+        }
 
-    <!-- link to js file for functions -->
-    <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>
+        function showInfo(data) {
+            document.getElementById("more_station_info").style.display = 'block';
+            var content = '';
+            if (data.open == 1) {
+                open = 'yes';
+                var last_update = data.last_update;
+                var stands = data.bike_stands;
+                var bikes = data.available_bikes;
+                content = "<strong>Available Bikes:</strong> " + bikes + "<br><strong>Available Stands:</strong> " + stands + "<br><strong>Updated at:</strong> " + last_update;
+            } else {
+                content = "Bike Station is Closed.";
+            }
+            document.getElementById("station_data").innerHTML = content;
+        }
 
-    <!--load map from googlemaps API using defer to load last-->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg2sU2u51CSm_oPPVdNrDTIyHW9GU29MY&callback=initMap" defer></script>
+        function hideDiv(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function openNav() {
+            document.getElementById("stationsSidepanel").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("stationsSidepanel").style.width = "0";
+        }
+	</script>
+</div>
+
+<!-- link to js file for functions -->
+<script type="module" src="{{ url_for('static', filename='index.js') }}"></script>
+
+<!--load map from googlemaps API using defer to load last-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg2sU2u51CSm_oPPVdNrDTIyHW9GU29MY&callback=initMap"
+        defer></script>
 
 </body>
 
