@@ -86,15 +86,17 @@
             <div id="myChart" style="width: 100%"></div>
         </div>
 
-        <!-- panel for more info on a particular station - shown if desired -->
-        <div id="more_station_info">
-            <div id="more_station_infoheader" style="width=100%; background-color: ">move me!<hr></div>
-            <a href="javascript:void(0)" class="closebtn" onclick="hideDiv('more_station_info')" style="position: sticky; float: left;">
-                <img src="/static/small_cross.svg">
-            </a><br>
-            <h3>More Station Info</h3>
-            <p id="station_data"></p>
-        </div>
+	<!-- panel for more info on a particular station - shown if desired -->
+	<div id="more_station_info">
+		<div id="more_station_infoheader" style="width=100%; background-color: ">move me!<hr></div>
+		<a href="javascript:void(0)" class="closebtn" onclick="hideDiv('more_station_info')"
+		   style="position: sticky; float: left;">
+			<img src="/static/small_cross.svg">
+		</a><br>
+		<h3>More Station Info</h3>
+		<p id="station_data"></p>
+		<div id="weekly_avg" style="width: 100%"></div>
+	</div>
 
 	<!--Map container-->
 	<div id="map"></div>
@@ -116,11 +118,11 @@
                     return data;
                 })
                 .then((data) => {
-                    showInfo(data);
+                    showInfo(data, station_number);
                 });
         }
 
-        function showInfo(data) {
+        async function showInfo(data, station_id) {
             document.getElementById("more_station_info").style.display = 'block';
             var content = '';
             if (data.open == 1) {
@@ -133,6 +135,28 @@
                 content = "Bike Station is Closed.";
             }
             document.getElementById("station_data").innerHTML = content;
+            await fetch('average/' + station_id)
+                .then(response => response.json())
+	            .then(data => {
+                    drawWeeklyAvgGraph(data)
+	            })
+        }
+
+        function drawWeeklyAvgGraph(averages) {
+            // convert prediction from array of objects to array of array
+            var arrayContainer = [];
+            // add the headers to array
+            arrayContainer.push(['day', 'avg_available_bikes', 'avg_available_bike_stands'])
+            averages.forEach(avg => arrayContainer.push([avg.day, avg.avg_bikes, avg.avg_stands]));
+            console.log(arrayContainer)
+            var data = google.visualization.arrayToDataTable(arrayContainer);
+
+            var options = {
+                title: 'averages over a week'
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('weekly_avg'));
+            chart.draw(data, options);
         }
 
         function hideDiv(id) {

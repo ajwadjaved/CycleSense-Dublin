@@ -50,7 +50,7 @@ def get_weather():
 @app.route("/average/<int:station_id>")
 def get_average(station_id):
     connector = BikesData()
-    bikes_availability_average = connector.average_availability(station_id)
+    bikes_availability_average = connector.average_availability_in_week(station_id)
     return bikes_availability_average
 
 
