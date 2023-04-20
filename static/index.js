@@ -75,23 +75,6 @@ function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
     zoom: 13.6, center: dublin,});
     console.log("initMap function called");
-//    test marker when not connected to server-------
-//    var image = "/static/purple_marker.svg";
-//
-//    var m = new google.maps.Marker({
-//        map,
-//        position: dublin,
-//        icon: image,
-//    });
-//    markers.push(m);
-//    var infoWindow = new google.maps.InfoWindow();
-//    google.maps.event.addListener(m, 'click', (function(m){
-//        var content = 'sample marker content<hr><strong>...</strong>';
-//        return function(){
-//            infoWindow.setContent(content);
-//            infoWindow.open(map, m);
-//        }
-//    })(m, 0));
 
     // fill map with station markers through getStations when loading map
     getStations();
@@ -178,8 +161,9 @@ function showMarkers(){
 // return path from location to location - walking only
 function directions(start, end){
 //    hideMarkers();
+    var image = "/static/small_cross.svg";
     var directionService = new google.maps.DirectionsService();
-    var directionRenderer = new google.maps.DirectionsRenderer();
+    var directionRenderer = new google.maps.DirectionsRenderer({suppressMarkers: true});
     directionRenderer.setMap(map);
     var request = {
         origin: start,
@@ -199,7 +183,6 @@ document.getElementById("return_bike").onclick = function() {returnBike(); retur
 document.getElementById("plan_trip").onclick = function() {showTrip()}
 document.getElementById("list_stations").onclick = function() {listStations(); openNav();}
 document.getElementById("get_weather").onclick = function() {getWeather();}
-//document.getElementById("get_weather").onclick = function() {showWeather();}
 
 //functions for user input choice - need, return and plan
 function needBike(){
@@ -230,16 +213,11 @@ function showTrip(){
         document.getElementById("trip_end").innerHTML = e;
         document.getElementById("trip_data").innerHTML = "<image src='/static/chartSample.png' style='width: 250px;'>";
      }
-
-//    use predictive model to display availability chances and weather forcast for chosen day as graphs
-//    document.getElementById('trip_data').innerHTML = "variable to show:<br><ul><li>start station bike availability over hours of day</li><li>end station space available over hours of day</li><li>weather forcast</li></ul>";
-
 }
 
 // list stations from json into side panel - each calls getAvailability(station_number) onclick
 function listStations(){
     for (var i=0; i<114; i++){
-//        var content = '<a href=# onclick="moreInfo(13)">Sample Station</a>'
         var content = '<a href="javascript:void(0)" onclick="moreInfo('+stations[i].NUMBER+')">'+stations[i].address+'</a>';
         document.getElementById('stationsSidepanel').innerHTML+=content;
     }
@@ -248,12 +226,10 @@ function listStations(){
 // show current weather info - called from getWeather() fetch response
 function showWeather(data){
     document.getElementById('weather_info').style.display = 'block';
-//    var content = "variable: showing todays' weather";
     var weather = data.weather;
     var temp = data.temp;
     var time = data.time;
-    document.getElementById('weather_data').innerHTML = "Weather: "+weather+" | Temp: "+temp+"℃ | Time: "+time;
-//    document.getElementById('weather_data').innerHTML = content;
+    document.getElementById('weather_data').innerHTML = "<strong>Weather:</strong> "+weather+"<br><strong>Temp:</strong> "+temp+"℃<br><strong>Time:</strong> "+time;
     dragElement(document.getElementById('weather_info'));
 }
 
@@ -294,7 +270,17 @@ function dragElement(elmnt){
         document.onmousemove = null;
     }
 }
+const successCallback = (position) => {
+  console.log(position);
+};
 
+const errorCallback = (error) => {
+  console.log(error);
+};
+
+navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+const id = navigator.geolocation.watchPosition(successCallback, errorCallback);
+console.log("id",id);
 // initialise map on browser window
 var ClickStart = null;
 var ClickEnd = null;
