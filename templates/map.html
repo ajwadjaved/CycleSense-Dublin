@@ -8,6 +8,8 @@
     <!-- link to stylesheet in static/css folder -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="icon" type="image/svg" href="/static/bike.svg">
+    <!-- import google chart library here -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 
 <body>
@@ -92,6 +94,8 @@
 
         <!--Map container-->
         <div id="map"></div>
+        <div id="myChart" style="width: 100%; max-width: 600px; height:400ppx;"></div>
+
 
         <!-- functions called from objects created through index.js file - can't access external js functions -->
         <script async defer>

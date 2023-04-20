@@ -55,8 +55,6 @@ function addMarkers(stations){
             icon: image,
         });
         markers.push(marker);
-        var availability = getAvailability(stations[i].NUMBER);
-        console.log(availability);
         // add marker popup to each
         google.maps.event.addListener(marker, 'click', (function(marker) {
             var content = 'Name: '+stations[i].address+'<br>Number: '+stations[i].NUMBER;
@@ -90,6 +88,7 @@ function find_closest_marker(position) {
     var closest = -1;
     for (var i = 0; i < markers.length; i++) {
         if (markers[i]) {
+            console.log(markers[i]);
             var mlat = markers[i].position.lat();
             var mlng = markers[i].position.lng();
             var dLat = rad(mlat - lat);
@@ -109,29 +108,31 @@ function find_closest_marker(position) {
     return (markers[closest].position);
 }
 
-// center map on user location when looking for or returning a bike
+// center map on user location when looking for or returning a bike -- using sample location due to https requirement for geolocation --
 function returnUserLocation(){
-    var infoWindow = new google.maps.InfoWindow();
+    var UserLocation = {lat:53.331072, lng:-6.290449,};
+    var closestMarker = find_closest_marker(UserLocation);
+    directions(UserLocation, closestMarker);
     // Try HTML5 geolocation
-    if (navigator.geolocation){
-        console.log("looking for your location.")
-        navigator.geolocation.getCurrentPosition((position) =>{
-            var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-            };
-            UserLocation = pos;
-            console.log("UserLocation from returnUserLocation():", UserLocation);
-            var closestMarker = find_closest_marker(UserLocation);
-            directions(UserLocation, closestMarker);
-        },
-        () => {
-            handleLocationError(true, marker, map.getCenter());
-        });
-    } else {
-        // Browser doesn't support geolocation
-        handleLocationError(false, marker, map.getCenter());
-    }
+//    if (navigator.geolocation){
+//        console.log("looking for your location.")
+//        navigator.geolocation.getCurrentPosition((position) =>{
+//            var pos = {
+//                lat: position.coords.latitude,
+//                lng: position.coords.longitude,
+//            };
+//            UserLocation = pos;
+//            console.log("UserLocation from returnUserLocation():", UserLocation);
+//            var closestMarker = find_closest_marker(UserLocation);
+//            directions(UserLocation, closestMarker);
+//        },
+//        () => {
+//            handleLocationError(true, marker, map.getCenter());
+//        });
+//    } else {
+//        // Browser doesn't support geolocation
+//        handleLocationError(false, marker, map.getCenter());
+//    }
 
 }
 // handle geolocation errors with infoWindow
@@ -277,10 +278,31 @@ const successCallback = (position) => {
 const errorCallback = (error) => {
   console.log(error);
 };
-
 navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
 const id = navigator.geolocation.watchPosition(successCallback, errorCallback);
 console.log("id",id);
+
+// sample google chart output
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+var data = google.visualization.arrayToDataTable([
+  ['Country', 'Mhl'],
+  ['hour 1',55],
+  ['hour 2',49],
+  ['hour 3',44],
+  ['hour 4',24],
+  ['hour 5',15]
+]);
+
+var options = {
+  title:'Sample chart'
+};
+
+var chart = new google.visualization.BarChart(document.getElementById('myChart'));
+  chart.draw(data, options);
+}
 // initialise map on browser window
 var ClickStart = null;
 var ClickEnd = null;

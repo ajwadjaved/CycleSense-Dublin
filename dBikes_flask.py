@@ -47,5 +47,12 @@ def get_weather():
     return station_info
 
 
+@app.route("/average/<int:station_id>")
+def get_average(station_id):
+    connector = BikesData()
+    bikes_availability_average = connector.average_availability(station_id)
+    return bikes_availability_average
+
+
 if __name__ == '__main__':
     app.run(debug=True)

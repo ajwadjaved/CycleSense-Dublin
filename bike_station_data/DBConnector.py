@@ -147,6 +147,16 @@ class DBConnector:
             trueDicts.append(dict(row))
         return json.dumps(trueDicts, indent=4, default=str)
 
+    def average_availability(self, station:int):
+        with self.engine.begin() as connection:
+            query = text("""
+                SELECT AVG(available_bikes)
+                FROM availability
+                WHERE number = {};
+            """.format(station))
+        row = connection.execute(query).mappings().all()
+        return json.dumps(row, indent=4, default=str)
+
 
 # def tests():
 #     connector = DBConnector()
