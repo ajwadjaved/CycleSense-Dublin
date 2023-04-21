@@ -252,6 +252,17 @@ function showTrip() {
     };
 }
 
+function getPrediction(start_station, day) {
+    fetch('prediction/' + start_station + '/' + day) // Replace '117' with actual station numbers
+        .then(response => response.json())
+        .then(data => {
+            drawPredictionChart(data)
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
 async function getTripInfo() {
     var day = document.getElementById("dayOfTrip").value;
     var s = document.getElementById("startLocation").value;
@@ -263,24 +274,18 @@ async function getTripInfo() {
         if (start.title == s) {
             markers.forEach(end =>{
                 if (end.title == e){
+                    console.log(start);
                     start_station = start.NUMBER;
                     end_station = end.NUMBER;
                     directions(start.position, end.position);
+                    // get prediction for station and day, display in chart
+                    getPrediction(start.station_number, day);
                 }
             });
         }
     });
     document.getElementById('trip_data').innerHTML = '<strong>Day: </strong>'+day+'<br><strong>From: </strong>'+s+' <strong>to</strong> '+e;
 
-    // get prediction for station and day, display in chart
-    await fetch('prediction/'+start_station+'/' + day) // Replace '117' with actual station numbers
-        .then(response => response.json())
-        .then(data => {
-            drawPredictionChart(data)
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
 }
 
 // list stations from json into side panel - each calls getAvailability(station_number) onclick
