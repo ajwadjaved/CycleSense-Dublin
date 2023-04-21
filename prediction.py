@@ -65,7 +65,6 @@ class Prediction:
                 output_forecast["humidity"] = forecast["main"]["humidity"]
                 output_forecast["speed"] = forecast["wind"]["speed"]
                 output_forecast["degrees"] = forecast["wind"]["deg"]
-                output_forecast["wID"] = forecast["weather"][0]["id"]
                 output.append(output_forecast)
         return output
 

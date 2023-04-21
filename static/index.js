@@ -370,10 +370,7 @@ function drawPredictionChart(prediction) {
     var data = google.visualization.arrayToDataTable(arrayContainer);
     var options = {
         title: 'Availability Prediction',
-        isStacked: 'percent',
         legend: {position: 'top',},
-        hAxis: {minValue: 0,},
-        height: 300,
     };
 
     var chart = new google.visualization.BarChart(document.getElementById('myChart'));
