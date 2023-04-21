@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>19 Bikes</title>
+	<title>CycleSense</title>
 	<!-- link to stylesheet in static/css folder -->
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 	<link rel="icon" type="image/svg" href="/static/bike.svg">
@@ -20,8 +20,12 @@
 
 		<div id="user_input">
 			<!-- "home" image to reload page -->
-			<a href="javascript:void(0)" onclick="location.reload()"><img src="/static/bike.svg"></a>
-
+			<div id="homeLink">
+				<a href="javascript:void(0)" onclick="location.reload()" style="color:#343073;">
+					<img src="/static/bike.svg">
+					<h1>CycleSense Dublin</h1>
+				</a>
+			</div>
 			<!-- Form which reads user input. Output changes depending on choice -->
 			<div id="IAmForm">
 				<button id="need_bike" class="button"><span>Need a Bike</span></button>
