@@ -365,8 +365,8 @@ function drawPredictionChart(prediction) {
     // convert prediction from array of objects to array of array
     var arrayContainer = [];
     // add the headers to array
-    arrayContainer.push(['hour', 'available_bikes', 'available_bike_stands'])
-    prediction.forEach(hourOfPred => arrayContainer.push([hourOfPred.hour.toString(), hourOfPred.available_bikes, hourOfPred.available_bike_stands]));
+    arrayContainer.push(['hour', 'available_bikes', 'available_bike_stands', { role: 'style'}])
+    prediction.forEach(hourOfPred => arrayContainer.push([hourOfPred.hour.toString(), hourOfPred.available_bikes, hourOfPred.available_bike_stands, 'color: #98A9CA']));
     var data = google.visualization.arrayToDataTable(arrayContainer);
     var options = {
         title: 'Availability Prediction',

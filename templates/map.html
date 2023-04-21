@@ -150,15 +150,15 @@
             // convert prediction from array of objects to array of array
             var arrayContainer = [];
             // add the headers to array
-            arrayContainer.push(['day', 'Bikes', 'Stands'])
-            averages.forEach(avg => arrayContainer.push([avg.day, avg.avg_bikes, avg.avg_stands]));
+            arrayContainer.push(['day', 'Bikes', 'Stands', { role: 'style'}])
+            averages.forEach(avg => arrayContainer.push([avg.day, avg.avg_bikes, avg.avg_stands, 'color: #343073; stroke-color: gray; stroke-width: 2px solid;']));
             console.log(arrayContainer)
             var data = google.visualization.arrayToDataTable(arrayContainer);
 
             var options = {
                 title: 'Weekly Average',
                 isStacked: 'percent',
-                legend: {position: 'bottom',},
+                legend: {position: 'none',},
                 hAxis: { minValue: 0,},
                 height: 300,
             };
