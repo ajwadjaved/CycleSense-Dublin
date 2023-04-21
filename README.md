@@ -12,6 +12,8 @@ This repository contains code for a Dublin Bikes project that includes multiple 
 - Flask server that connects our RDS Database linked to our EC2 instance
 - API calls being made every 5 minutes to OpenWeather and JCDecaux API to store in the RDS database
 - Latest data from database queried every time a user wants to plan a trip
-
+  
+![Screenshot of Homepage](HomePage_features.jpg)
+  
 ## Contact
 If you have any questions or need further information, please contact the project owner or contributors via the GitHub repository.
