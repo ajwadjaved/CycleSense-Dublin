@@ -66,7 +66,7 @@
         <!-- panel for trip information - shown if desired -->
         <div id="trip_info">
             <div id="trip_infoheader" style="width: 100%">move me!<hr></div>
-            <a href="javascript:void(0)" class="closebtn" onclick="hideDiv('trip_info')" style="position: sticky, float: left;">
+            <a href="javascript:void(0)" class="closebtn" onclick="hideDiv('trip_info'); clearInfo('myChart'); clearInfo('trip_data')" style="position: sticky, float: left;">
                 <img src="/static/small_cross.svg"></a>
             <img src="/static/path.svg" style="float: right;">
             <h2>About your Trip</h2>
@@ -74,14 +74,15 @@
                 <label for="dayOfTrip"><strong>Day of Trip: </strong></label>
                 <input type="date" id="dayOfTrip" name="tripDay"><br><br>
                 <label for="startLocation"><strong>Start: </strong></label>
-                <input type="text" id="startLocation" name="startLocation" placeholder="start location..." style="float: right;"><br><br>
+				<select name="startLocation" id="startLocation">
+					<option value="" disabled selected hidden>Please Choose...</option>
+				</select><br>
                 <label for="endLocation"><strong>End: </strong></label>
-                <input type="text" id="endLocation" name="endLocation" placeholder="end location..." style="float: right;"><br><br>
+				<select name="endLocation" id="endLocation">
+					<option value="" disabled selected hidden>Please Choose...</option>
+				</select>
             </form>
             <button id="date_chosen"><strong>Get Trip Info</strong></button>
-            <p id="trip_day"></p>
-            <p id="trip_start"></p>
-            <p id="trip_end"></p>
             <p id="trip_data"></p>
             <div id="myChart" style="width: 100%"></div>
         </div>
@@ -89,7 +90,7 @@
 	<!-- panel for more info on a particular station - shown if desired -->
 	<div id="more_station_info">
 		<div id="more_station_infoheader" style="width=100%; background-color: ">move me!<hr></div>
-		<a href="javascript:void(0)" class="closebtn" onclick="hideDiv('more_station_info')"
+		<a href="javascript:void(0)" class="closebtn" onclick="hideDiv('more_station_info'); clearInfo('weekly_avg')"
 		   style="position: sticky; float: left;">
 			<img src="/static/small_cross.svg">
 		</a><br>
@@ -107,6 +108,9 @@
         function moreInfo(id) {
             closeNav();
             getAvailability(id);
+        }
+        function clearInfo(div) {
+        	document.getElementById(div).innerHTML = '';
         }
 
         // get availability for given station
@@ -146,13 +150,17 @@
             // convert prediction from array of objects to array of array
             var arrayContainer = [];
             // add the headers to array
-            arrayContainer.push(['day', 'avg_available_bikes', 'avg_available_bike_stands'])
+            arrayContainer.push(['day', 'Bikes', 'Stands'])
             averages.forEach(avg => arrayContainer.push([avg.day, avg.avg_bikes, avg.avg_stands]));
             console.log(arrayContainer)
             var data = google.visualization.arrayToDataTable(arrayContainer);
 
             var options = {
-                title: 'averages over a week'
+                title: 'Weekly Average',
+                isStacked: 'percent',
+                legend: {position: 'bottom',},
+                hAxis: { minValue: 0,},
+                height: 300,
             };
 
             var chart = new google.visualization.BarChart(document.getElementById('weekly_avg'));

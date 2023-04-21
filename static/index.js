@@ -193,11 +193,10 @@ function showMarkers() {
 
 // return path from location to location - walking only
 function directions(start, end) {
-//    hideMarkers();
-    var image = "/static/small_cross.svg";
     var directionService = new google.maps.DirectionsService();
     var directionRenderer = new google.maps.DirectionsRenderer({suppressMarkers: true});
-    directionRenderer.setMap(map);
+//    hideMarkers();
+    var image = "/static/small_cross.svg";
     var request = {
         origin: start,
         destination: end,
@@ -205,6 +204,7 @@ function directions(start, end) {
     };
     directionService.route(request, function (result, status) {
         if (status == 'OK') {
+            directionRenderer.setMap(map);
             directionRenderer.setDirections(result);
         }
     });
@@ -253,18 +253,27 @@ function showTrip() {
 }
 
 async function getTripInfo() {
-    // --> TODO: can't type in user input text form for some reason <--
-    // --> TODO: get location finder API from google to read user input location as latLng for station finder <--
-    // --> TODO: get information entered by user in form. Pass to directions() function to show path on map <--
     var day = document.getElementById("dayOfTrip").value;
-    document.getElementById('trip_day').innerHTML = day;
     var s = document.getElementById("startLocation").value;
     var e = document.getElementById("endLocation").value;
-    document.getElementById("trip_start").innerHTML = s;
-    document.getElementById("trip_end").innerHTML = e;
+    var start_station;
+    var end_station;
+
+    markers.forEach(start => {
+        if (start.title == s) {
+            markers.forEach(end =>{
+                if (end.title == e){
+                    start_station = start.NUMBER;
+                    end_station = end.NUMBER;
+                    directions(start.position, end.position);
+                }
+            });
+        }
+    });
+    document.getElementById('trip_data').innerHTML = '<strong>Day: </strong>'+day+'<br><strong>From: </strong>'+s+' <strong>to</strong> '+e;
 
     // get prediction for station and day, display in chart
-    await fetch('prediction/117/' + day) // Replace '117' with actual station numbers
+    await fetch('prediction/'+start_station+'/' + day) // Replace '117' with actual station numbers
         .then(response => response.json())
         .then(data => {
             drawPredictionChart(data)
@@ -279,6 +288,9 @@ function listStations() {
     for (var i = 0; i < 114; i++) {
         var content = '<a href="javascript:void(0)" onclick="moreInfo(' + stations[i].NUMBER + ')">' + stations[i].address + '</a>';
         document.getElementById('stationsSidepanel').innerHTML += content;
+        var station = '<option value="'+stations[i].address+'">'+stations[i].address+'</option>';
+        document.getElementById('startLocation').innerHTML += station;
+        document.getElementById('endLocation').innerHTML += station;
     }
 }
 
@@ -352,9 +364,11 @@ function drawPredictionChart(prediction) {
     prediction.forEach(hourOfPred => arrayContainer.push([hourOfPred.hour.toString(), hourOfPred.available_bikes, hourOfPred.available_bike_stands]));
     var data = google.visualization.arrayToDataTable(arrayContainer);
     var options = {
-        title: 'Sample chart',
-        colors: ['#AEC0E3'],
-        opacity: 0.2,
+        title: 'Availability Prediction',
+        isStacked: 'percent',
+        legend: {position: 'top',},
+        hAxis: {minValue: 0,},
+        height: 300,
     };
 
     var chart = new google.visualization.BarChart(document.getElementById('myChart'));
