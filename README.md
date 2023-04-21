@@ -1,5 +1,5 @@
 # CycleSense Dublin 
-This repository contains code for a Dublin Bikes project that includes multiple components for data processing, visualization, and machine learning predictions related to Dublin Bikes usage.
+This repository contains code for a project that includes multiple components for data processing, visualization, and machine learning predictions related to finding and renting bikes provided by the Dublin City Council.
 
 ![Screenshot of Homepage](HomePage.jpg)
 
