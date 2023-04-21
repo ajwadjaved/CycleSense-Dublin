@@ -1,7 +1,7 @@
 # CycleSense Dublin 
 This repository contains code for a Dublin Bikes project that includes multiple components for data processing, visualization, and machine learning predictions related to Dublin Bikes usage.
 
-[![Screenshot of Homepage](HomePage.jpg)]
+![Screenshot of Homepage](HomePage.jpg)
 
 
 ## Features
