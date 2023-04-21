@@ -147,16 +147,23 @@ class DBConnector:
             trueDicts.append(dict(row))
         return json.dumps(trueDicts, indent=4, default=str)
 
-    def average_availability(self, station:int):
+    def average_availability_in_week(self, station: int):
         with self.engine.begin() as connection:
             query = text("""
-                SELECT AVG(available_bikes)
+                SELECT DAYNAME(last_update) as day, AVG(available_bikes) AS avg_bikes, AVG(available_bike_stands) AS avg_stands
                 FROM availability
-                WHERE number = {};
-            """.format(station))
-        row = connection.execute(query).mappings().all()
-        return json.dumps(row, indent=4, default=str)
-
+                WHERE NUMBER = {}
+                GROUP BY day;
+            """.format(station)
+                         )
+            rows = connection.execute(query).mappings().all()
+        trueDicts = []
+        for row in rows:
+            thisDict = dict(row)
+            thisDict['avg_bikes'] = round(thisDict['avg_bikes'])
+            thisDict['avg_stands'] = round(thisDict['avg_stands'])
+            trueDicts.append(thisDict)
+        return json.dumps(trueDicts, indent=4, default=str)
 
 # def tests():
 #     connector = DBConnector()
